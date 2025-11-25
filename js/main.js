@@ -1,7 +1,6 @@
-// js/main.js
 import { initFirebase } from "./firebase.js";
 import { initTemaYNavegacion } from "./tema.js";
-import { logros, renderizarLogros, mostrarDetalle, editarLogro, volverAMostrarDetalle, logroActual, setLogroActual, convertirImagenABase64 } from "./logros.js";
+import { pokemon, renderizarPokemones, mostrarDetalle, editarPokemon, volverAMostrarDetalle, pokemonActual, setPokemonActual, convertirImagenABase64 } from "./pokemon.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
     // Inicializar Firebase
@@ -79,17 +78,17 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // 🔑 Función para mostrar/ocultar botones de edición
     function actualizarVisibilidadBotones(autenticado) {
-        const btnAgregar = document.getElementById("btn-agregar-logro");
-        const btnEditar = document.getElementById("btn-editar-logro");
+        const btnAgregar = document.getElementById("btn-agregar-pokemon");
+        const btnEditar = document.getElementById("btn-editar-pokemon");
         if (btnAgregar) btnAgregar.style.display = autenticado ? "inline-flex" : "none";
         if (btnEditar) btnEditar.style.display = autenticado ? "inline-block" : "none";
     }
 
-    // === 🔑 NUEVO: Lógica del filtro de logros ===
-    const selectFiltro = document.getElementById("filtro-logros");
+    // === 🔑 NUEVO: Lógica del filtro de Pokémon ===
+    const selectFiltro = document.getElementById("filtro-pokemon");
     const seccionDesbloqueados = document.getElementById("seccion-desbloqueados");
     const seccionBloqueados = document.getElementById("seccion-bloqueados");
-    const cargandoLogros = document.getElementById("cargando-logros");
+    const cargandoPokemon = document.getElementById("cargando-pokemon");
 
     // Aplicar filtro al cambiar la selección
     selectFiltro.addEventListener("change", () => {
@@ -106,32 +105,32 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
 
-    // === 🔑 NUEVO: Función para cargar y renderizar logros con caché ===
-    async function cargarYRenderizarLogros() {
+    // === 🔑 NUEVO: Función para cargar y renderizar Pokémon con caché ===
+    async function cargarYRenderizarPokemon() {
         try {
             // 1. Intentar mostrar caché inmediatamente
-            const cache = localStorage.getItem("logros_cache");
+            const cache = localStorage.getItem("pokemon_cache");
             if (cache) {
-                logros.length = 0;
-                JSON.parse(cache).forEach(l => logros.push(l));
+                pokemon.length = 0;
+                JSON.parse(cache).forEach(p => pokemon.push(p));
                 renderizarConFiltro();
             }
 
             // 2. Cargar datos frescos de Firebase
-            const snapshot = await database.ref("logros").once("value");
-            logros.length = 0;
+            const snapshot = await database.ref("pokemon").once("value");
+            pokemon.length = 0;
             snapshot.forEach(child => {
-                const logro = child.val();
-                logros.push(logro);
+                const p = child.val();
+                pokemon.push(p);
             });
             
             // 3. Guardar en caché
-            localStorage.setItem("logros_cache", JSON.stringify(logros));
+            localStorage.setItem("pokemon_cache", JSON.stringify(pokemon));
             renderizarConFiltro();
         } catch (error) {
-            console.error("Error al cargar los logros:", error);
-            cargandoLogros.textContent = "Error al cargar. ¿Estás conectado a internet?";
-            cargandoLogros.style.display = "block";
+            console.error("Error al cargar los Pokémon:", error);
+            cargandoPokemon.textContent = "Error al cargar. ¿Estás conectado a internet?";
+            cargandoPokemon.style.display = "block";
             // Ocultar listas en caso de error
             seccionDesbloqueados.style.display = "none";
             seccionBloqueados.style.display = "none";
@@ -142,28 +141,28 @@ document.addEventListener("DOMContentLoaded", async () => {
     function mostrarMenu() {
         // Ocultar otras pantallas
         document.getElementById("pantalla-inicial").style.display = "none";
-        if (document.getElementById("detalle-logro")) {
-            document.getElementById("detalle-logro").style.display = "none";
+        if (document.getElementById("detalle-pokemon")) {
+            document.getElementById("detalle-pokemon").style.display = "none";
         }
-        if (document.getElementById("nuevo-logro")) {
-            document.getElementById("nuevo-logro").style.display = "none";
+        if (document.getElementById("nuevo-pokemon")) {
+            document.getElementById("nuevo-pokemon").style.display = "none";
         }
 
         // Mostrar estado de carga y ocultar listas
-        cargandoLogros.style.display = "block";
+        cargandoPokemon.style.display = "block";
         seccionDesbloqueados.style.display = "none";
         seccionBloqueados.style.display = "none";
 
         // Mostrar el menú
-        document.getElementById("menu-logros").style.display = "block";
+        document.getElementById("menu-pokemon").style.display = "block";
 
-        // Cargar logros en segundo plano
-        cargarYRenderizarLogros();
+        // Cargar Pokémon en segundo plano
+        cargarYRenderizarPokemon();
     }
 
-    // Función para renderizar logros Y aplicar el filtro actual
+    // Función para renderizar Pokémon Y aplicar el filtro actual
     const renderizarConFiltro = () => {
-        renderizarLogros(logrosDesbloqueados, logrosBloqueados);
+        renderizarPokemones(pokemonDesbloqueados, pokemonBloqueados);
         const valor = selectFiltro.value;
         if (valor === "todos") {
             seccionDesbloqueados.style.display = "block";
@@ -176,43 +175,44 @@ document.addEventListener("DOMContentLoaded", async () => {
             seccionBloqueados.style.display = "block";
         }
         // Ocultar mensaje de carga
-        cargandoLogros.style.display = "none";
+        cargandoPokemon.style.display = "none";
     };
 
     // === Referencias a elementos del DOM ===
     const pantallaInicial = document.getElementById("pantalla-inicial");
-    const menuLogros = document.getElementById("menu-logros");
-    const detalleLogro = document.getElementById("detalle-logro");
-    const logrosDesbloqueados = document.getElementById("logros-desbloqueados");
-    const logrosBloqueados = document.getElementById("logros-bloqueados");
-    const inputJugador1 = document.getElementById("jugador1");
-    const inputJugador2 = document.getElementById("jugador2");
+    const menuPokemon = document.getElementById("menu-pokemon");
+    const detallePokemon = document.getElementById("detalle-pokemon");
+    const pokemonDesbloqueados = document.getElementById("pokemon-desbloqueados");
+    const pokemonBloqueados = document.getElementById("pokemon-bloqueados");
+    const inputEntrenador1 = document.getElementById("entrenador1");
+    const inputEntrenador2 = document.getElementById("entrenador2");
     const btnIniciar = document.getElementById("btn-iniciar");
     const btnVolverMenuDetalle = document.getElementById("btn-volver-menu");
     const btnVolverInicio = document.getElementById("btn-volver-inicio");
-    const nuevoLogro = document.getElementById("nuevo-logro");
+    const nuevoPokemon = document.getElementById("nuevo-pokemon");
     const btnVolverNuevo = document.getElementById("btn-volver-nuevo");
     const btnGuardarNuevo = document.getElementById("btn-guardar-nuevo");
     const inputNuevoNombre = document.getElementById("nuevo-nombre");
-    const inputNuevaFecha = document.getElementById("nueva-fecha");
-    const inputNuevaNota = document.getElementById("nueva-nota");
+    const inputNuevoTipo = document.getElementById("nuevo-tipo");
+    const inputNuevaDescripcion = document.getElementById("nueva-descripcion");
     const inputNuevoDesbloqueado = document.getElementById("nuevo-desbloqueado");
     const inputNuevoImagen = document.getElementById("nuevo-imagen");
 
-    // 🔑 Proteger botón de guardar nuevo logro
+    // 🔑 Proteger botón de guardar nuevo Pokémon
     btnGuardarNuevo.addEventListener("click", async () => {
         if (!firebase.auth().currentUser) {
-            alert("Debes iniciar sesión para crear logros.");
+            alert("Debes iniciar sesión para crear Pokémon.");
             return;
         }
         const nombre = inputNuevoNombre.value.trim();
-        const fecha = inputNuevaFecha.value.trim();
-        const notas = inputNuevaNota.value.trim();
+        const tipo = inputNuevoTipo.value.trim();
+        const descripcion = inputNuevaDescripcion.value.trim();
         const desbloqueado = inputNuevoDesbloqueado.checked;
 
-        if (!nombre) { alert("El nombre del logro es obligatorio."); return; }
+        if (!nombre) { alert("El nombre del Pokémon es obligatorio."); return; }
+        if (!tipo) { alert("El tipo del Pokémon es obligatorio."); return; }
         if (nombre.length > 50) { alert("El nombre no puede superar 50 caracteres."); return; }
-        if (notas.length > 200) { alert("Las notas no pueden superar 200 caracteres."); return; }
+        if (descripcion.length > 200) { alert("La descripción no puede superar 200 caracteres."); return; }
 
         const prevText = btnGuardarNuevo.textContent;
         btnGuardarNuevo.textContent = "Guardando...";
@@ -220,28 +220,28 @@ document.addEventListener("DOMContentLoaded", async () => {
         btnGuardarNuevo.setAttribute("aria-busy", "true");
 
         try {
-            const maxId = logros.length > 0 ? Math.max(...logros.map(l => Number(l.id) || 0)) : 0;
+            const maxId = pokemon.length > 0 ? Math.max(...pokemon.map(p => Number(p.id) || 0)) : 0;
             const nuevoId = maxId + 1;
-            let nuevoLogroObj = { id: nuevoId, nombre, fecha: fecha || "--/--/----", notas: notas || "Sin notas", desbloqueado: !!desbloqueado, dificultad: 0 };
+            let nuevoPokemonObj = { id: nuevoId, nombre, tipo, descripcion: descripcion || "Sin descripción", desbloqueado: !!desbloqueado, nivel: 0 };
 
             const archivo = inputNuevoImagen.files[0];
             if (archivo) {
                 const base64 = await convertirImagenABase64(archivo);
-                nuevoLogroObj.imagen = base64;
+                nuevoPokemonObj.imagen = base64;
             }
 
-            await database.ref("logros/" + nuevoId).set(nuevoLogroObj);
-            logros.push(nuevoLogroObj);
+            await database.ref("pokemon/" + nuevoId).set(nuevoPokemonObj);
+            pokemon.push(nuevoPokemonObj);
 
-            nuevoLogro.style.display = "none";
+            nuevoPokemon.style.display = "none";
             mostrarDetalle(nuevoId);
             limpiarCampos();
             // Actualizar caché y renderizar
-            localStorage.setItem("logros_cache", JSON.stringify(logros));
-            cargarYRenderizarLogros(); // Recargar para reflejar cambios
+            localStorage.setItem("pokemon_cache", JSON.stringify(pokemon));
+            cargarYRenderizarPokemon(); // Recargar para reflejar cambios
         } catch (error) {
-            console.error("Error al guardar el nuevo logro:", error);
-            alert("Ocurrió un error al guardar el logro. Inténtalo de nuevo.");
+            console.error("Error al guardar el nuevo Pokémon:", error);
+            alert("Ocurrió un error al guardar el Pokémon. Inténtalo de nuevo.");
         } finally {
             btnGuardarNuevo.textContent = prevText;
             btnGuardarNuevo.disabled = false;
@@ -250,24 +250,25 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     // 🔑 Proteger botón de guardar edición
-    const btnGuardar = document.getElementById("btn-guardar-logro");
+    const btnGuardar = document.getElementById("btn-guardar-pokemon");
     btnGuardar.addEventListener("click", async () => {
         if (!firebase.auth().currentUser) {
-            alert("Debes iniciar sesión para editar logros.");
+            alert("Debes iniciar sesión para editar Pokémon.");
             return;
         }
-        if (!logroActual) return;
+        if (!pokemonActual) return;
 
         const nuevoNombre = document.getElementById("edit-nombre").value.trim();
-        const nuevaFecha = document.getElementById("edit-fecha").value.trim();
-        const nuevasNotas = document.getElementById("edit-notas").value.trim();
+        const nuevoTipo = document.getElementById("edit-tipo").value.trim();
+        const nuevaDescripcion = document.getElementById("edit-descripcion").value.trim();
         const desbloqueado = document.getElementById("edit-desbloqueado").checked;
-        const contDificultad = document.getElementById("detalle-dificultad");
-        const nuevaDificultad = Number(contDificultad?.dataset?.valor || 0);
+        const contNivel = document.getElementById("detalle-nivel");
+        const nuevoNivel = Number(contNivel?.dataset?.valor || 0);
 
-        if (!nuevoNombre) { alert("El nombre del logro es obligatorio."); return; }
+        if (!nuevoNombre) { alert("El nombre del Pokémon es obligatorio."); return; }
+        if (!nuevoTipo) { alert("El tipo del Pokémon es obligatorio."); return; }
         if (nuevoNombre.length > 50) { alert("El nombre no puede superar 50 caracteres."); return; }
-        if (nuevasNotas.length > 200) { alert("Las notas no pueden superar 200 caracteres."); return; }
+        if (nuevaDescripcion.length > 200) { alert("La descripción no puede superar 200 caracteres."); return; }
 
         const prevText = btnGuardar.textContent;
         btnGuardar.textContent = "Guardando...";
@@ -275,24 +276,24 @@ document.addEventListener("DOMContentLoaded", async () => {
         btnGuardar.setAttribute("aria-busy", "true");
 
         try {
-            logroActual.nombre = nuevoNombre;
-            logroActual.fecha = nuevaFecha || "--/--/----";
-            logroActual.notas = nuevasNotas || "Sin notas";
-            logroActual.desbloqueado = desbloqueado;
-            logroActual.dificultad = nuevaDificultad;
+            pokemonActual.nombre = nuevoNombre;
+            pokemonActual.tipo = nuevoTipo;
+            pokemonActual.descripcion = nuevaDescripcion || "Sin descripción";
+            pokemonActual.desbloqueado = desbloqueado;
+            pokemonActual.nivel = nuevoNivel;
 
             const inputEditImagen = document.getElementById("edit-imagen");
             const archivo = inputEditImagen.files[0];
             if (archivo) {
                 const base64 = await convertirImagenABase64(archivo);
-                logroActual.imagen = base64;
+                pokemonActual.imagen = base64;
             }
 
-            await database.ref("logros/" + logroActual.id).set(logroActual);
-            volverAMostrarDetalle(logroActual.id);
+            await database.ref("pokemon/" + pokemonActual.id).set(pokemonActual);
+            volverAMostrarDetalle(pokemonActual.id);
             // Actualizar caché y renderizar
-            localStorage.setItem("logros_cache", JSON.stringify(logros));
-            cargarYRenderizarLogros(); // Recargar para reflejar cambios
+            localStorage.setItem("pokemon_cache", JSON.stringify(pokemon));
+            cargarYRenderizarPokemon(); // Recargar para reflejar cambios
         } catch (error) {
             console.error("Error al guardar los cambios:", error);
             alert("Ocurrió un error al guardar los cambios. Inténtalo de nuevo.");
@@ -305,8 +306,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Resto de event listeners (usando mostrarMenu)
     btnIniciar.addEventListener("click", () => {
-        if (!inputJugador1.value) inputJugador1.value = "Atenea";
-        if (!inputJugador2.value) inputJugador2.value = "Fabian";
+        if (!inputEntrenador1.value) inputEntrenador1.value = "Ash";
+        if (!inputEntrenador2.value) inputEntrenador2.value = "Misty";
         mostrarMenu(); // ✅ Usa la nueva función
     });
 
@@ -314,43 +315,43 @@ document.addEventListener("DOMContentLoaded", async () => {
         mostrarMenu(); // ✅ Usa la nueva función
     });
     btnVolverInicio.addEventListener("click", () => {
-        menuLogros.style.display = "none";
+        menuPokemon.style.display = "none";
         pantallaInicial.style.display = "block";
     });
 
-    const btnAgregarLogro = document.getElementById("btn-agregar-logro");
-    btnAgregarLogro.addEventListener("click", () => {
+    const btnAgregarPokemon = document.getElementById("btn-agregar-pokemon");
+    btnAgregarPokemon.addEventListener("click", () => {
         if (!firebase.auth().currentUser) {
-            alert("Debes iniciar sesión para crear logros.");
+            alert("Debes iniciar sesión para crear Pokémon.");
             return;
         }
-        menuLogros.style.display = "none";
-        nuevoLogro.style.display = "block";
+        menuPokemon.style.display = "none";
+        nuevoPokemon.style.display = "block";
     });
 
-    const btnEditarLogro = document.getElementById("btn-editar-logro");
-    btnEditarLogro.addEventListener("click", () => {
-        if (!logroActual) return;
+    const btnEditarPokemon = document.getElementById("btn-editar-pokemon");
+    btnEditarPokemon.addEventListener("click", () => {
+        if (!pokemonActual) return;
         if (!firebase.auth().currentUser) {
-            alert("Debes iniciar sesión para editar logros.");
+            alert("Debes iniciar sesión para editar Pokémon.");
             return;
         }
-        editarLogro(logroActual);
+        editarPokemon(pokemonActual);
     });
 
     btnVolverNuevo.addEventListener("click", () => {
-        nuevoLogro.style.display = "none";
+        nuevoPokemon.style.display = "none";
         mostrarMenu(); // ✅ Usa la nueva función
     });
 
     const limpiarCampos = () => {
         inputNuevoNombre.value = "";
-        inputNuevaFecha.value = "";
-        inputNuevaNota.value = "";
+        inputNuevoTipo.value = "";
+        inputNuevaDescripcion.value = "";
         inputNuevoDesbloqueado.checked = false;
         inputNuevoImagen.value = "";
     };
 
-    // Cargar logros al inicio (con caché)
-    cargarYRenderizarLogros();
+    // Cargar Pokémon al inicio (con caché)
+    cargarYRenderizarPokemon();
 });
