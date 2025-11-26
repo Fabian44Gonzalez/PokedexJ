@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <!-- Asegura que la página se vea bien en dispositivos móviles -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LogrosAF</title>
+    <title>Pokédex</title>
     <!-- Enlace al archivo de estilos principal -->
     <link rel="stylesheet" href="css/style.css">
     <!-- Ícono de pestaña (favicon) -->
@@ -14,39 +14,39 @@
     <!-- Encabezado con el título de la aplicación -->
     <header>
         <div class="header-jugadores">
-            <h1>LogrosAF</h1>
+            <h1>Pokédex</h1>
         </div>
     </header>
 
     <main>
-        <!-- Pantalla inicial: formulario para ingresar nombres de jugadores y comenzar -->
+        <!-- Pantalla inicial: formulario para ingresar nombres de entrenadores y comenzar -->
         <section id="pantalla-inicial" class="pantalla">
             <div class="card">
                 <div class="controles-card">
-                    <h2 class="titulo-centrado">Comenzar partida</h2>
+                    <h2 class="titulo-centrado">Comenzar</h2>
                     <!-- Botón para cambiar tema (modo claro/oscuro) -->
                     <button id="btn-cambiar-tema" class="btn-circular" title="Cambiar tema">🌙</button>
                 </div>
-                <!-- Campos para nombres de jugadores con valores predeterminados -->
+                <!-- Campos para nombres de entrenadores con valores predeterminados -->
                 <div class="form-group">
-                    <label for="jugador1">Jugador 1:</label>
-                    <input type="text" id="jugador1" class="form-input" value="Atenea">
+                    <label for="entrenador1">Entrenador 1:</label>
+                    <input type="text" id="entrenador1" class="form-input" value="Ash">
                 </div>
                 <div class="form-group">
-                    <label for="jugador2">Jugador 2:</label>
-                    <input type="text" id="jugador2" class="form-input" value="Fabian">
+                    <label for="entrenador2">Entrenador 2:</label>
+                    <input type="text" id="entrenador2" class="form-input" value="Misty">
                 </div>
-                <button id="btn-iniciar" class="btn-principal">Iniciar</button>
+                <button id="btn-iniciar" class="btn-principal">Ver Pokédex</button>
             </div>
         </section>
 
-        <!-- Menú principal de logros: muestra logros desbloqueados y bloqueados -->
-        <section id="menu-logros" class="pantalla" style="display: none;">
+        <!-- Menú principal de Pokémon: muestra Pokémon desbloqueados y bloqueados -->
+        <section id="menu-pokemon" class="pantalla" style="display: none;">
             <div class="controles-menu">
                 <button id="btn-volver-inicio" class="btn-secundario">← Volver</button>
                 <div class="grupo-derecha">
-                    <!-- Botón para agregar un nuevo logro -->
-                    <button id="btn-agregar-logro" class="btn-secundario" title="Agregar logro">
+                    <!-- Botón para agregar un nuevo Pokémon -->
+                    <button id="btn-agregar-pokemon" class="btn-secundario" title="Agregar Pokémon">
                         <span>+</span>
                     </button>
                     <!-- Botón de cambio de tema en esta pantalla -->
@@ -54,65 +54,65 @@
                 </div>
             </div>
 
-            <!-- Menú desplegable para filtrar logros -->
+            <!-- Menú desplegable para filtrar Pokémon -->
             <div class="form-group" style="margin: 15px 0;">
-                <label for="filtro-logros">Filtrar:</label>
-                <select id="filtro-logros" class="form-input" style="max-width: 300px; margin: 6px auto;">
-                    <option value="todos">Todos los logros</option>
+                <label for="filtro-pokemon">Filtrar:</label>
+                <select id="filtro-pokemon" class="form-input" style="max-width: 300px; margin: 6px auto;">
+                    <option value="todos">Todos los Pokémon</option>
                     <option value="desbloqueados">Solo desbloqueados</option>
                     <option value="bloqueados">Solo bloqueados</option>
                 </select>
             </div>
 
             <!-- 🔑 NUEVO: Mensaje de carga -->
-            <div id="cargando-logros" style="display: none; margin: 20px 0; color: var(--color-texto);">
-                Cargando logros... 🔄
+            <div id="cargando-pokemon" style="display: none; margin: 20px 0; color: var(--color-texto);">
+                Cargando Pokémon... 🔄
             </div>
 
-            <!-- Contenedores de listas de logros (se ocultarán/mostrarán según el filtro) -->
+            <!-- Contenedores de listas de Pokémon (se ocultarán/mostrarán según el filtro) -->
             <div id="seccion-desbloqueados">
-                <h3>Logros Desbloqueados</h3>
-                <ul id="logros-desbloqueados" class="lista-desbloqueados"></ul>
+                <h3>Pokémon Desbloqueados</h3>
+                <ul id="pokemon-desbloqueados" class="lista-desbloqueados"></ul>
             </div>
             <div id="seccion-bloqueados">
-                <h3>Logros Bloqueados</h3>
-                <ul id="logros-bloqueados" class="lista-bloqueados"></ul>
+                <h3>Pokémon Bloqueados</h3>
+                <ul id="pokemon-bloqueados" class="lista-bloqueados"></ul>
             </div>
         </section>
 
-        <!-- Pantalla de detalle de un logro específico -->
-        <section id="detalle-logro" class="pantalla" style="display: none;">
+        <!-- Pantalla de detalle de un Pokémon específico -->
+        <section id="detalle-pokemon" class="pantalla" style="display: none;">
             <div class="card">
                 <div class="controles-menu">
                     <button id="btn-volver-menu" class="btn-secundario">← Volver</button>
                     <div class="grupo-derecha">
-                        <!-- Botón para editar el logro actual -->
-                        <button id="btn-editar-logro" class="btn-secundario">🖉</button>
+                        <!-- Botón para editar el Pokémon actual -->
+                        <button id="btn-editar-pokemon" class="btn-secundario">🖉</button>
                         <!-- Cambio de tema en esta pantalla -->
                         <button id="btn-cambiar-tema-detalle" class="btn-circular" title="Cambiar tema">🌙</button>
                     </div>
                 </div>
                 <h2 id="detalle-titulo"></h2>
-                <div class="info-logro">
-                    <!-- Contenedor para la imagen del logro -->
+                <div class="info-pokemon">
+                    <!-- Contenedor para la imagen del Pokémon -->
                     <div id="detalle-imagen" class="contenedor-imagen"></div>
                     <!-- Campo oculto para cambiar imagen (solo visible en modo edición) -->
                     <label id="label-cambiar-imagen" style="display: none;">
                         Cambiar imagen: <input type="file" id="edit-imagen" accept="image/*">
                     </label>
-                    <p>Fecha: <span id="detalle-fecha"></span></p>
-                    <!-- Representación visual de la dificultad (estrellas) -->
-                    <div id="detalle-dificultad" class="estrellas" aria-label="Dificultad" role="img"></div>
-                    <p class="notas-titulo">Notas:</p>
-                    <div id="detalle-notas"></div>
+                    <p>Tipo: <span id="detalle-tipo"></span></p>
+                    <!-- Representación visual del nivel (estrellas) -->
+                    <div id="detalle-nivel" class="estrellas" aria-label="Nivel" role="img"></div>
+                    <p class="descripcion-titulo">Descripción:</p>
+                    <div id="detalle-descripcion"></div>
                     <!-- Botón de guardar (solo visible al editar) -->
-                    <button id="btn-guardar-logro" class="btn-principal" style="display: none;">Guardar</button>
+                    <button id="btn-guardar-pokemon" class="btn-principal" style="display: none;">Guardar</button>
                 </div>
             </div>
         </section>
 
-        <!-- Pantalla para crear un nuevo logro -->
-        <section id="nuevo-logro" class="pantalla" style="display: none;">
+        <!-- Pantalla para crear un nuevo Pokémon -->
+        <section id="nuevo-pokemon" class="pantalla" style="display: none;">
             <div class="card">
                 <div class="controles-menu">
                     <button id="btn-volver-nuevo" class="btn-secundario">← Volver</button>
@@ -121,17 +121,17 @@
                         <button id="btn-cambiar-tema-nuevo" class="btn-circular" title="Cambiar tema">🌙</button>
                     </div>
                 </div>
-                <h2>Nuevo Logro</h2>
+                <h2>Nuevo Pokémon</h2>
 
-                <!-- Formulario para crear un nuevo logro -->
+                <!-- Formulario para crear un nuevo Pokémon -->
                 <div class="form-group">
                     <label for="nuevo-nombre">Nombre:</label>
                     <input type="text" id="nuevo-nombre" class="form-input" maxlength="50" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="nueva-fecha">Fecha:</label>
-                    <input type="date" id="nueva-fecha" class="form-input">
+                    <label for="nuevo-tipo">Tipo:</label>
+                    <input type="text" id="nuevo-tipo" class="form-input" placeholder="Fuego, Agua, etc." maxlength="50" required>
                 </div>
 
                 <div class="form-group">
@@ -145,8 +145,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="nueva-nota">Notas:</label>
-                    <textarea id="nueva-nota" class="form-input" maxlength="200"></textarea>
+                    <label for="nueva-descripcion">Descripción:</label>
+                    <textarea id="nueva-descripcion" class="form-input" maxlength="200"></textarea>
                 </div>
 
                 <button id="btn-guardar-nuevo" class="btn-principal">Guardar</button>
