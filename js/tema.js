@@ -5,7 +5,7 @@
  * 
  * - Gestiona 4 botones de cambio de tema (uno por pantalla).
  * - Alterna el tema oscuro mediante la clase "op2" en el <body>.
- * - Proporciona una función para mostrar el menú principal de logros.
+ * - Proporciona una función para mostrar el menú principal de Pokémon.
  * 
  * @returns {{ mostrarMenu: Function }} Objeto con la función de navegación.
  */
@@ -18,9 +18,9 @@ export function initTemaYNavegacion() {
 
   // Referencias a las secciones/pantallas
   const pantallaInicial = document.getElementById("pantalla-inicial");
-  const menuLogros = document.getElementById("menu-logros");
-  const detalleLogro = document.getElementById("detalle-logro");
-  const nuevoLogro = document.getElementById("nuevo-logro");
+  const menuPokemon = document.getElementById("menu-pokemon");
+  const detallePokemon = document.getElementById("detalle-pokemon");
+  const nuevoPokemon = document.getElementById("nuevo-pokemon");
 
   /**
    * Alterna entre el tema claro (por defecto) y el tema oscuro (clase "op2").
@@ -39,14 +39,14 @@ export function initTemaYNavegacion() {
   if (btnTemaNuevo) btnTemaNuevo.addEventListener("click", toggleTema);
 
   /**
-   * Muestra la pantalla del menú de logros y oculta todas las demás.
+   * Muestra la pantalla del menú de Pokémon y oculta todas las demás.
    */
   function mostrarMenu() {
     // Ocultar todas las pantallas excepto el menú
     pantallaInicial.style.display = "none";
-    if (detalleLogro) detalleLogro.style.display = "none";
-    if (nuevoLogro) nuevoLogro.style.display = "none";
-    menuLogros.style.display = "block";
+    if (detallePokemon) detallePokemon.style.display = "none";
+    if (nuevoPokemon) nuevoPokemon.style.display = "none";
+    menuPokemon.style.display = "block";
   }
 
   return { mostrarMenu };
