@@ -9,17 +9,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     // 🔑 Inicializar tema y navegación
     const { mostrarMenu } = initTemaYNavegacion(); // Guardamos la función mostrarMenu
 
-    // 🔑 Referencias para login secreto
+    // 🔑 Referencias para login secreto (ahora no se usan)
     const loginSecreto = document.getElementById("login-secreto");
     const btnLogin = document.getElementById("btn-login");
     const btnLogout = document.getElementById("btn-logout");
     const emailInput = document.getElementById("login-email");
     const passwordInput = document.getElementById("login-password");
 
+    // 🔑 Ocultar login secreto permanentemente
+    loginSecreto.style.display = "none";
+
     // 🔑 Mostrar login al presionar 'L' (solo escritorio)
     document.addEventListener("keydown", (e) => {
         if (e.key === "l" || e.key === "L") {
-            loginSecreto.style.display = "block";
+            alert("Sistema de login desactivado.");
         }
     });
 
@@ -38,53 +41,10 @@ document.addEventListener("DOMContentLoaded", async () => {
             ultimoToque = ahora;
 
             if (toques >= 5) {
-                loginSecreto.style.display = "block";
+                alert("Sistema de login desactivado.");
                 toques = 0;
             }
         });
-    }
-
-    // 🔑 Manejar login
-    btnLogin.addEventListener("click", async () => {
-        try {
-            await firebase.auth().signInWithEmailAndPassword(
-                emailInput.value.trim(),
-                passwordInput.value
-            );
-            alert("¡Autenticado! Ahora puedes editar.");
-            loginSecreto.style.display = "none";
-            passwordInput.value = "";
-            actualizarVisibilidadBotones(true);
-        } catch (error) {
-            console.error("Error de login:", error);
-            alert("Error: " + (error.message || "credenciales inválidas"));
-        }
-    });
-
-    // 🔑 Manejar logout
-    btnLogout.addEventListener("click", async () => {
-        await firebase.auth().signOut();
-        alert("Sesión cerrada.");
-        actualizarVisibilidadBotones(false);
-    });
-
-    // 🔑 Verificar estado de autenticación al cargar
-    firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-            btnLogout.style.display = "inline-block";
-            actualizarVisibilidadBotones(true);
-        } else {
-            btnLogout.style.display = "none";
-            actualizarVisibilidadBotones(false);
-        }
-    });
-
-    // 🔑 Función para mostrar/ocultar botones de edición
-    function actualizarVisibilidadBotones(autenticado) {
-        const btnAgregar = document.getElementById("btn-agregar-pokemon");
-        const btnEditar = document.getElementById("btn-editar-pokemon");
-        if (btnAgregar) btnAgregar.style.display = autenticado ? "inline-flex" : "none";
-        if (btnEditar) btnEditar.style.display = autenticado ? "inline-block" : "none";
     }
 
     // === 🔑 NUEVO: Lógica del filtro de Pokémon ===
@@ -200,12 +160,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     const inputNuevoDesbloqueado = document.getElementById("nuevo-desbloqueado");
     const inputNuevoImagen = document.getElementById("nuevo-imagen");
 
-    // 🔑 Proteger botón de guardar nuevo Pokémon
+    // 🔑 Botón de guardar nuevo Pokémon (sin autenticación)
     btnGuardarNuevo.addEventListener("click", async () => {
-        if (!firebase.auth().currentUser) {
-            alert("Debes iniciar sesión para crear Pokémon.");
-            return;
-        }
         const nombre = inputNuevoNombre.value.trim();
         const tipo = inputNuevoTipo.value.trim();
         const descripcion = inputNuevaDescripcion.value.trim();
@@ -251,13 +207,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
 
-    // 🔑 Proteger botón de guardar edición
+    // 🔑 Botón de guardar edición (sin autenticación)
     const btnGuardar = document.getElementById("btn-guardar-pokemon");
     btnGuardar.addEventListener("click", async () => {
-        if (!firebase.auth().currentUser) {
-            alert("Debes iniciar sesión para editar Pokémon.");
-            return;
-        }
         if (!pokemonActual) return;
 
         const nuevoNombre = document.getElementById("edit-nombre").value.trim();
@@ -321,10 +273,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const btnAgregarPokemon = document.getElementById("btn-agregar-pokemon");
     btnAgregarPokemon.addEventListener("click", () => {
-        if (!firebase.auth().currentUser) {
-            alert("Debes iniciar sesión para crear Pokémon.");
-            return;
-        }
         menuPokemon.style.display = "none";
         nuevoPokemon.style.display = "block";
     });
@@ -332,10 +280,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     const btnEditarPokemon = document.getElementById("btn-editar-pokemon");
     btnEditarPokemon.addEventListener("click", () => {
         if (!pokemonActual) return;
-        if (!firebase.auth().currentUser) {
-            alert("Debes iniciar sesión para editar Pokémon.");
-            return;
-        }
         editarPokemon(pokemonActual);
     });
 
