@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const database = initFirebase();
 
     // 🔑 Inicializar tema y navegación
-    initTemaYNavegacion(); // Llamamos a la función para inicializar los botones de tema
+    const { mostrarMenu } = initTemaYNavegacion(); // Guardamos la función mostrarMenu
 
     // 🔑 Referencias para login secreto
     const loginSecreto = document.getElementById("login-secreto");
@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     // === 🔑 NUEVO: Función para mostrar el menú con estado de carga ===
-    function mostrarMenu() {
+    function mostrarMenuLocal() {
         // Ocultar otras pantallas
         document.getElementById("pantalla-inicial").style.display = "none";
         if (document.getElementById("detalle-pokemon")) {
@@ -306,13 +306,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
 
-    // Resto de event listeners (usando mostrarMenu)
+    // Resto de event listeners (usando mostrarMenuLocal)
     btnIniciar.addEventListener("click", () => {
-        mostrarMenu(); // ✅ Usa la nueva función
+        mostrarMenuLocal(); // ✅ Usa la nueva función
     });
 
     btnVolverMenuDetalle.addEventListener("click", () => {
-        mostrarMenu(); // ✅ Usa la nueva función
+        mostrarMenuLocal(); // ✅ Usa la nueva función
     });
     btnVolverInicio.addEventListener("click", () => {
         menuPokemon.style.display = "none";
@@ -341,7 +341,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     btnVolverNuevo.addEventListener("click", () => {
         nuevoPokemon.style.display = "none";
-        mostrarMenu(); // ✅ Usa la nueva función
+        mostrarMenuLocal(); // ✅ Usa la nueva función
     });
 
     const limpiarCampos = () => {
