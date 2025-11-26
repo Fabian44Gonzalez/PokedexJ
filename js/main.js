@@ -185,7 +185,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     const pokemonDesbloqueados = document.getElementById("pokemon-desbloqueados");
     const pokemonBloqueados = document.getElementById("pokemon-bloqueados");
     const inputEntrenador1 = document.getElementById("entrenador1");
-    const inputEntrenador2 = document.getElementById("entrenador2");
     const btnIniciar = document.getElementById("btn-iniciar");
     const btnVolverMenuDetalle = document.getElementById("btn-volver-menu");
     const btnVolverInicio = document.getElementById("btn-volver-inicio");
@@ -306,8 +305,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Resto de event listeners (usando mostrarMenu)
     btnIniciar.addEventListener("click", () => {
-        if (!inputEntrenador1.value) inputEntrenador1.value = "Ash";
-        if (!inputEntrenador2.value) inputEntrenador2.value = "Misty";
         mostrarMenu(); // ✅ Usa la nueva función
     });
 
