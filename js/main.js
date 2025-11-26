@@ -1,10 +1,13 @@
 import { initFirebase } from "./firebase.js";
-import { initTemaYNavegacion } from "./tema.js";
+import { initTemaYNavegacion } from "./tema.js"; // Importamos la función
 import { pokemon, renderizarPokemones, mostrarDetalle, editarPokemon, volverAMostrarDetalle, pokemonActual, setPokemonActual, convertirImagenABase64 } from "./pokemon.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
     // Inicializar Firebase
     const database = initFirebase();
+
+    // 🔑 Inicializar tema y navegación
+    initTemaYNavegacion(); // Llamamos a la función para inicializar los botones de tema
 
     // 🔑 Referencias para login secreto
     const loginSecreto = document.getElementById("login-secreto");
