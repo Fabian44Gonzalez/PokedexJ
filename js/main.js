@@ -49,81 +49,15 @@ document.addEventListener("DOMContentLoaded", async () => {
                 pokemon.push(p);
             });
 
-            // 3. Si no hay datos en Firebase, usar ejemplos locales
+            // 3. Si no hay datos en Firebase, usar pokemons.json
             if (pokemon.length === 0) {
-                const ejemplos = [
-                    {
-                        id: 1,
-                        nombre: "Pikachu",
-                        tipo: "⚡ Eléctrico",
-                        hp: 60,
-                        tipoCarta: "Pokémon Básico",
-                        debilidad: "🪨 Lucha ×2",
-                        resistencia: "",
-                        costoRetiro: "1 energía",
-                        ataque: "Impact Trueno: ⚡ (2 energía) → 30 daño",
-                        numeroCarta: "025/198",
-                        desbloqueado: true,
-                        imagen: ""
-                    },
-                    {
-                        id: 2,
-                        nombre: "Charizard",
-                        tipo: "🔥 Fuego",
-                        hp: 120,
-                        tipoCarta: "Pokémon Evolución",
-                        debilidad: "💧 Agua ×2",
-                        resistencia: "",
-                        costoRetiro: "2 energía",
-                        ataque: "Llamarada: 🔥 (3 energía) → 120 daño",
-                        numeroCarta: "006/198",
-                        desbloqueado: true,
-                        imagen: ""
-                    },
-                    {
-                        id: 3,
-                        nombre: "Bulbasaur",
-                        tipo: "🌿 Planta",
-                        hp: 60,
-                        tipoCarta: "Pokémon Básico",
-                        debilidad: "🔥 Fuego ×2",
-                        resistencia: "",
-                        costoRetiro: "1 energía",
-                        ataque: "Latigazo Cepa: 🌿 (1 energía) → 10 daño",
-                        numeroCarta: "001/198",
-                        desbloqueado: false,
-                        imagen: ""
-                    },
-                    {
-                        id: 4,
-                        nombre: "Squirtle",
-                        tipo: "💧 Agua",
-                        hp: 70,
-                        tipoCarta: "Pokémon Básico",
-                        debilidad: "⚡ Eléctrico ×2",
-                        resistencia: "🪨 Lucha –30",
-                        costoRetiro: "1 energía",
-                        ataque: "Chorro de Agua: 💧 (1 energía) → 20 daño",
-                        numeroCarta: "062/198",
-                        desbloqueado: false,
-                        imagen: ""
-                    },
-                    {
-                        id: 5,
-                        nombre: "Jigglypuff",
-                        tipo: "🎵 Normal",
-                        hp: 70,
-                        tipoCarta: "Pokémon Básico",
-                        debilidad: "🪨 Lucha ×2",
-                        resistencia: "",
-                        costoRetiro: "1 energía",
-                        ataque: "Canto: 🎵 (1 energía) → dormir",
-                        numeroCarta: "039/198",
-                        desbloqueado: true,
-                        imagen: ""
-                    }
-                ];
-                pokemon.push(...ejemplos);
+                try {
+                    const response = await fetch('pokemons.json');
+                    const data = await response.json();
+                    pokemon.push(...data);
+                } catch (err) {
+                    console.error("No se pudo cargar pokemons.json");
+                }
             }
 
             // 4. Guardar en caché
@@ -131,83 +65,17 @@ document.addEventListener("DOMContentLoaded", async () => {
             renderizarConFiltro();
         } catch (error) {
             console.error("Error al cargar los Pokémon:", error);
-            // Si falla, usar ejemplos locales
+            // Si falla, usar pokemons.json
             pokemon.length = 0;
-            const ejemplos = [
-                {
-                    id: 1,
-                    nombre: "Pikachu",
-                    tipo: "⚡ Eléctrico",
-                    hp: 60,
-                    tipoCarta: "Pokémon Básico",
-                    debilidad: "🪨 Lucha ×2",
-                    resistencia: "",
-                    costoRetiro: "1 energía",
-                    ataque: "Impact Trueno: ⚡ (2 energía) → 30 daño",
-                    numeroCarta: "025/198",
-                    desbloqueado: true,
-                    imagen: ""
-                },
-                {
-                    id: 2,
-                    nombre: "Charizard",
-                    tipo: "🔥 Fuego",
-                    hp: 120,
-                    tipoCarta: "Pokémon Evolución",
-                    debilidad: "💧 Agua ×2",
-                    resistencia: "",
-                    costoRetiro: "2 energía",
-                    ataque: "Llamarada: 🔥 (3 energía) → 120 daño",
-                    numeroCarta: "006/198",
-                    desbloqueado: true,
-                    imagen: ""
-                },
-                {
-                    id: 3,
-                    nombre: "Bulbasaur",
-                    tipo: "🌿 Planta",
-                    hp: 60,
-                    tipoCarta: "Pokémon Básico",
-                    debilidad: "🔥 Fuego ×2",
-                    resistencia: "",
-                    costoRetiro: "1 energía",
-                    ataque: "Latigazo Cepa: 🌿 (1 energía) → 10 daño",
-                    numeroCarta: "001/198",
-                    desbloqueado: false,
-                    imagen: ""
-                },
-                {
-                    id: 4,
-                    nombre: "Squirtle",
-                    tipo: "💧 Agua",
-                    hp: 70,
-                    tipoCarta: "Pokémon Básico",
-                    debilidad: "⚡ Eléctrico ×2",
-                    resistencia: "🪨 Lucha –30",
-                    costoRetiro: "1 energía",
-                    ataque: "Chorro de Agua: 💧 (1 energía) → 20 daño",
-                    numeroCarta: "062/198",
-                    desbloqueado: false,
-                    imagen: ""
-                },
-                {
-                    id: 5,
-                    nombre: "Jigglypuff",
-                    tipo: "🎵 Normal",
-                    hp: 70,
-                    tipoCarta: "Pokémon Básico",
-                    debilidad: "🪨 Lucha ×2",
-                    resistencia: "",
-                    costoRetiro: "1 energía",
-                    ataque: "Canto: 🎵 (1 energía) → dormir",
-                    numeroCarta: "039/198",
-                    desbloqueado: true,
-                    imagen: ""
-                }
-            ];
-            pokemon.push(...ejemplos);
-            localStorage.setItem("pokemon_cache", JSON.stringify(pokemon));
-            renderizarConFiltro();
+            try {
+                const response = await fetch('pokemons.json');
+                const data = await response.json();
+                pokemon.push(...data);
+                localStorage.setItem("pokemon_cache", JSON.stringify(pokemon));
+                renderizarConFiltro();
+            } catch (err) {
+                console.error("No se pudo cargar pokemons.json");
+            }
         }
     }
 
