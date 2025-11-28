@@ -32,9 +32,6 @@ export function renderizarPokemones(pokemonDesbloqueados, pokemonBloqueados) {
     pokemonDesbloqueados.innerHTML = "";
     pokemonBloqueados.innerHTML = "";
 
-    // 🔑 Verificar si el usuario está autenticado
-    const autenticado = firebase.auth().currentUser;
-
     // Crear un elemento <li> con botón para cada Pokémon
     pokemon.forEach(p => {
         const li = document.createElement("li");
@@ -93,18 +90,9 @@ export function mostrarDetalle(id) {
     // Mostrar descripción
     document.getElementById("detalle-descripcion").textContent = p.descripcion;
 
-    // 🔑 NUEVO: Ocultar botón "Editar" por defecto y mostrarlo solo si autenticado
-    document.getElementById("btn-editar-pokemon").style.display = "none";
+    // Ocultar botón "Editar" por defecto y mostrarlo solo si autenticado (ahora no es necesario)
+    document.getElementById("btn-editar-pokemon").style.display = "inline-block";
     document.getElementById("btn-guardar-pokemon").style.display = "none";
-
-    // Verificar autenticación de forma segura
-    if (typeof firebase !== 'undefined') {
-        const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-            document.getElementById("btn-editar-pokemon").style.display = user ? "inline-block" : "none";
-            // Cancelar el listener después de usarlo (evita fugas de memoria)
-            unsubscribe();
-        });
-    }
 }
 
 /**
@@ -209,16 +197,9 @@ export function volverAMostrarDetalle(id) {
     detalleContenedor.querySelector('#edit-descripcion')?.remove();
     detalleContenedor.querySelector('#edit-desbloqueado')?.remove();
 
-    // 🔑 NUEVO: Ocultar botón "Editar" por defecto y mostrarlo solo si autenticado
-    document.getElementById("btn-editar-pokemon").style.display = "none";
+    // Mostrar botón "Editar" y ocultar botón "Guardar"
+    document.getElementById("btn-editar-pokemon").style.display = "inline-block";
     document.getElementById("btn-guardar-pokemon").style.display = "none";
-
-    if (typeof firebase !== 'undefined') {
-        const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-            document.getElementById("btn-editar-pokemon").style.display = user ? "inline-block" : "none";
-            unsubscribe();
-        });
-    }
 }
 
 /**
