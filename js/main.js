@@ -48,8 +48,23 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const p = child.val();
                 pokemon.push(p);
             });
-            
-            // 3. Guardar en caché
+
+            // 3. Si no hay datos en Firebase, añadir algunos de ejemplo
+            if (pokemon.length === 0) {
+                const ejemplos = [
+                    { id: 1, nombre: "Pikachu", tipo: "Eléctrico", descripcion: "Ratón eléctrico muy peculiar.", desbloqueado: true, nivel: 3, imagen: "" },
+                    { id: 2, nombre: "Charizard", tipo: "Fuego/Volador", descripcion: "Escupe fuego con gran intensidad.", desbloqueado: true, nivel: 5, imagen: "" },
+                    { id: 3, nombre: "Bulbasaur", tipo: "Planta/Veneno", descripcion: "Tiene una semilla en la espalda.", desbloqueado: false, nivel: 2, imagen: "" },
+                    { id: 4, nombre: "Squirtle", tipo: "Agua", descripcion: "Tiene una concha protectora.", desbloqueado: false, nivel: 2, imagen: "" },
+                    { id: 5, nombre: "Jigglypuff", tipo: "Normal/Hada", descripcion: "Canta para dormir a sus enemigos.", desbloqueado: true, nivel: 1, imagen: "" }
+                ];
+                for (const p of ejemplos) {
+                    await database.ref("pokemon/" + p.id).set(p);
+                }
+                pokemon.push(...ejemplos);
+            }
+
+            // 4. Guardar en caché
             localStorage.setItem("pokemon_cache", JSON.stringify(pokemon));
             renderizarConFiltro();
         } catch (error) {
