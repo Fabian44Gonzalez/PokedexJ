@@ -135,7 +135,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     const btnGuardarNuevo = document.getElementById("btn-guardar-nuevo");
     const inputNuevoNombre = document.getElementById("nuevo-nombre");
     const inputNuevoTipo = document.getElementById("nuevo-tipo");
-    const inputNuevaDescripcion = document.getElementById("nueva-descripcion");
     const inputNuevoDesbloqueado = document.getElementById("nuevo-desbloqueado");
     const inputNuevoImagen = document.getElementById("nuevo-imagen");
 
@@ -143,13 +142,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     btnGuardarNuevo.addEventListener("click", async () => {
         const nombre = inputNuevoNombre.value.trim();
         const tipo = inputNuevoTipo.value.trim();
-        const descripcion = inputNuevaDescripcion.value.trim();
         const desbloqueado = inputNuevoDesbloqueado.checked;
 
         if (!nombre) { alert("El nombre del Pokémon es obligatorio."); return; }
         if (!tipo) { alert("El tipo del Pokémon es obligatorio."); return; }
         if (nombre.length > 50) { alert("El nombre no puede superar 50 caracteres."); return; }
-        if (descripcion.length > 200) { alert("La descripción no puede superar 200 caracteres."); return; }
 
         const prevText = btnGuardarNuevo.textContent;
         btnGuardarNuevo.textContent = "Guardando...";
@@ -168,7 +165,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 debilidad: "",
                 resistencia: "",
                 costoRetiro: "1 energía",
-                ataque: descripcion,
+                ataque: "", // Campo vacío
                 numeroCarta: "???/???", // ✅ Valor por defecto
                 desbloqueado: !!desbloqueado,
                 imagen: ""
@@ -213,7 +210,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         const nuevoCostoRetiro = document.getElementById("edit-costo-retiro").value.trim();
         const nuevoAtaque = document.getElementById("edit-ataque").value.trim();
         const nuevoNumeroCarta = document.getElementById("edit-numero-carta").value.trim();
-        const desbloqueado = document.getElementById("edit-desbloqueado").checked;
 
         if (!nuevoNombre) { alert("El nombre del Pokémon es obligatorio."); return; }
         if (!nuevoTipo) { alert("El tipo del Pokémon es obligatorio."); return; }
@@ -236,7 +232,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             pokemonActual.costoRetiro = nuevoCostoRetiro;
             pokemonActual.ataque = nuevoAtaque;
             pokemonActual.numeroCarta = nuevoNumeroCarta;
-            pokemonActual.desbloqueado = desbloqueado;
 
             const inputEditImagen = document.getElementById("edit-imagen");
             const archivo = inputEditImagen.files[0];
@@ -293,7 +288,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     const limpiarCampos = () => {
         inputNuevoNombre.value = "";
         inputNuevoTipo.value = "";
-        inputNuevaDescripcion.value = "";
         inputNuevoDesbloqueado.checked = false;
         inputNuevoImagen.value = "";
     };

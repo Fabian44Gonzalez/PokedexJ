@@ -91,10 +91,6 @@ export function mostrarDetalle(id) {
   document.getElementById("detalle-costo-retiro").textContent = p.costoRetiro;
   document.getElementById("detalle-ataque").textContent = p.ataque;
   document.getElementById("detalle-numero-carta").textContent = p.numeroCarta;
-  document.getElementById("detalle-desbloqueado").textContent = p.desbloqueado ? "Sí" : "No";
-
-  // Mostrar descripción
-  document.getElementById("detalle-descripcion").textContent = p.descripcion;
 
   // Ocultar botón "Editar" por defecto y mostrarlo solo si autenticado (ahora no es necesario)
   document.getElementById("btn-editar-pokemon").style.display = "inline-block";
@@ -120,7 +116,6 @@ export function editarPokemon(p) {
   document.getElementById("detalle-costo-retiro").innerHTML = `<input type="text" id="edit-costo-retiro" class="form-input" value="${p.costoRetiro}" maxlength="20">`;
   document.getElementById("detalle-ataque").innerHTML = `<input type="text" id="edit-ataque" class="form-input" value="${p.ataque}" maxlength="100">`;
   document.getElementById("detalle-numero-carta").innerHTML = `<input type="text" id="edit-numero-carta" class="form-input" value="${p.numeroCarta}" maxlength="10">`;
-  document.getElementById("detalle-desbloqueado").innerHTML = `<label>Desbloqueado: <input type="checkbox" id="edit-desbloqueado" ${p.desbloqueado ? "checked" : ""}></label>`;
 
   // Mostrar control de imagen y botón de guardar
   document.getElementById("label-cambiar-imagen").style.display = "block";
@@ -149,7 +144,6 @@ export function volverAMostrarDetalle(id) {
   document.getElementById("detalle-costo-retiro").textContent = p.costoRetiro;
   document.getElementById("detalle-ataque").textContent = p.ataque;
   document.getElementById("detalle-numero-carta").textContent = p.numeroCarta;
-  document.getElementById("detalle-desbloqueado").textContent = p.desbloqueado ? "Sí" : "No";
 
   // Eliminar elementos de edición del DOM
   const detalleContenedor = document.getElementById('detalle-pokemon');
@@ -162,7 +156,6 @@ export function volverAMostrarDetalle(id) {
   detalleContenedor.querySelector('#edit-costo-retiro')?.remove();
   detalleContenedor.querySelector('#edit-ataque')?.remove();
   detalleContenedor.querySelector('#edit-numero-carta')?.remove();
-  detalleContenedor.querySelector('#edit-desbloqueado')?.remove();
 
   // Mostrar botón "Editar" y ocultar botón "Guardar"
   document.getElementById("btn-editar-pokemon").style.display = "inline-block";
