@@ -169,9 +169,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 nuevoPokemonObj.imagen = base64;
             }
 
-            // Guardar en Firebase
             await database.ref("pokemon/" + nuevoId).set(nuevoPokemonObj);
-            // Añadir al array local
             pokemon.push(nuevoPokemonObj);
 
             nuevoPokemon.style.display = "none";
@@ -199,8 +197,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         const nuevoTipo = document.getElementById("edit-tipo").value.trim();
         const nuevaDescripcion = document.getElementById("edit-descripcion").value.trim();
         const desbloqueado = document.getElementById("edit-desbloqueado").checked;
-        const contNivel = document.getElementById("detalle-nivel");
-        const nuevoNivel = Number(contNivel?.dataset?.valor || 0);
 
         if (!nuevoNombre) { alert("El nombre del Pokémon es obligatorio."); return; }
         if (!nuevoTipo) { alert("El tipo del Pokémon es obligatorio."); return; }
@@ -217,7 +213,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             pokemonActual.tipo = nuevoTipo;
             pokemonActual.descripcion = nuevaDescripcion || "Sin descripción";
             pokemonActual.desbloqueado = desbloqueado;
-            pokemonActual.nivel = nuevoNivel;
 
             const inputEditImagen = document.getElementById("edit-imagen");
             const archivo = inputEditImagen.files[0];
@@ -226,7 +221,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                 pokemonActual.imagen = base64;
             }
 
-            // Guardar en Firebase
             await database.ref("pokemon/" + pokemonActual.id).set(pokemonActual);
             volverAMostrarDetalle(pokemonActual.id);
             // Actualizar caché y renderizar
