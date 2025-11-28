@@ -52,11 +52,76 @@ document.addEventListener("DOMContentLoaded", async () => {
             // 3. Si no hay datos en Firebase, usar ejemplos locales
             if (pokemon.length === 0) {
                 const ejemplos = [
-                    { id: 1, nombre: "Pikachu", tipo: "Eléctrico", descripcion: "Ratón eléctrico muy peculiar.", desbloqueado: true, nivel: 3, imagen: "" },
-                    { id: 2, nombre: "Charizard", tipo: "Fuego/Volador", descripcion: "Escupe fuego con gran intensidad.", desbloqueado: true, nivel: 5, imagen: "" },
-                    { id: 3, nombre: "Bulbasaur", tipo: "Planta/Veneno", descripcion: "Tiene una semilla en la espalda.", desbloqueado: false, nivel: 2, imagen: "" },
-                    { id: 4, nombre: "Squirtle", tipo: "Agua", descripcion: "Tiene una concha protectora.", desbloqueado: false, nivel: 2, imagen: "" },
-                    { id: 5, nombre: "Jigglypuff", tipo: "Normal/Hada", descripcion: "Canta para dormir a sus enemigos.", desbloqueado: true, nivel: 1, imagen: "" }
+                    {
+                        id: 1,
+                        nombre: "Pikachu",
+                        tipo: "⚡ Eléctrico",
+                        hp: 60,
+                        tipoCarta: "Pokémon Básico",
+                        debilidad: "🪨 Lucha ×2",
+                        resistencia: "",
+                        costoRetiro: "1 energía",
+                        ataque: "Impact Trueno: ⚡ (2 energía) → 30 daño",
+                        numeroCarta: "025/198",
+                        desbloqueado: true,
+                        imagen: ""
+                    },
+                    {
+                        id: 2,
+                        nombre: "Charizard",
+                        tipo: "🔥 Fuego",
+                        hp: 120,
+                        tipoCarta: "Pokémon Evolución",
+                        debilidad: "💧 Agua ×2",
+                        resistencia: "",
+                        costoRetiro: "2 energía",
+                        ataque: "Llamarada: 🔥 (3 energía) → 120 daño",
+                        numeroCarta: "006/198",
+                        desbloqueado: true,
+                        imagen: ""
+                    },
+                    {
+                        id: 3,
+                        nombre: "Bulbasaur",
+                        tipo: "🌿 Planta",
+                        hp: 60,
+                        tipoCarta: "Pokémon Básico",
+                        debilidad: "🔥 Fuego ×2",
+                        resistencia: "",
+                        costoRetiro: "1 energía",
+                        ataque: "Latigazo Cepa: 🌿 (1 energía) → 10 daño",
+                        numeroCarta: "001/198",
+                        desbloqueado: false,
+                        imagen: ""
+                    },
+                    {
+                        id: 4,
+                        nombre: "Squirtle",
+                        tipo: "💧 Agua",
+                        hp: 70,
+                        tipoCarta: "Pokémon Básico",
+                        debilidad: "⚡ Eléctrico ×2",
+                        resistencia: "🪨 Lucha –30",
+                        costoRetiro: "1 energía",
+                        ataque: "Chorro de Agua: 💧 (1 energía) → 20 daño",
+                        numeroCarta: "062/198",
+                        desbloqueado: false,
+                        imagen: ""
+                    },
+                    {
+                        id: 5,
+                        nombre: "Jigglypuff",
+                        tipo: "🎵 Normal",
+                        hp: 70,
+                        tipoCarta: "Pokémon Básico",
+                        debilidad: "🪨 Lucha ×2",
+                        resistencia: "",
+                        costoRetiro: "1 energía",
+                        ataque: "Canto: 🎵 (1 energía) → dormir",
+                        numeroCarta: "039/198",
+                        desbloqueado: true,
+                        imagen: ""
+                    }
                 ];
                 pokemon.push(...ejemplos);
             }
@@ -69,11 +134,76 @@ document.addEventListener("DOMContentLoaded", async () => {
             // Si falla, usar ejemplos locales
             pokemon.length = 0;
             const ejemplos = [
-                { id: 1, nombre: "Pikachu", tipo: "Eléctrico", descripcion: "Ratón eléctrico muy peculiar.", desbloqueado: true, nivel: 3, imagen: "" },
-                { id: 2, nombre: "Charizard", tipo: "Fuego/Volador", descripcion: "Escupe fuego con gran intensidad.", desbloqueado: true, nivel: 5, imagen: "" },
-                { id: 3, nombre: "Bulbasaur", tipo: "Planta/Veneno", descripcion: "Tiene una semilla en la espalda.", desbloqueado: false, nivel: 2, imagen: "" },
-                { id: 4, nombre: "Squirtle", tipo: "Agua", descripcion: "Tiene una concha protectora.", desbloqueado: false, nivel: 2, imagen: "" },
-                { id: 5, nombre: "Jigglypuff", tipo: "Normal/Hada", descripcion: "Canta para dormir a sus enemigos.", desbloqueado: true, nivel: 1, imagen: "" }
+                {
+                    id: 1,
+                    nombre: "Pikachu",
+                    tipo: "⚡ Eléctrico",
+                    hp: 60,
+                    tipoCarta: "Pokémon Básico",
+                    debilidad: "🪨 Lucha ×2",
+                    resistencia: "",
+                    costoRetiro: "1 energía",
+                    ataque: "Impact Trueno: ⚡ (2 energía) → 30 daño",
+                    numeroCarta: "025/198",
+                    desbloqueado: true,
+                    imagen: ""
+                },
+                {
+                    id: 2,
+                    nombre: "Charizard",
+                    tipo: "🔥 Fuego",
+                    hp: 120,
+                    tipoCarta: "Pokémon Evolución",
+                    debilidad: "💧 Agua ×2",
+                    resistencia: "",
+                    costoRetiro: "2 energía",
+                    ataque: "Llamarada: 🔥 (3 energía) → 120 daño",
+                    numeroCarta: "006/198",
+                    desbloqueado: true,
+                    imagen: ""
+                },
+                {
+                    id: 3,
+                    nombre: "Bulbasaur",
+                    tipo: "🌿 Planta",
+                    hp: 60,
+                    tipoCarta: "Pokémon Básico",
+                    debilidad: "🔥 Fuego ×2",
+                    resistencia: "",
+                    costoRetiro: "1 energía",
+                    ataque: "Latigazo Cepa: 🌿 (1 energía) → 10 daño",
+                    numeroCarta: "001/198",
+                    desbloqueado: false,
+                    imagen: ""
+                },
+                {
+                    id: 4,
+                    nombre: "Squirtle",
+                    tipo: "💧 Agua",
+                    hp: 70,
+                    tipoCarta: "Pokémon Básico",
+                    debilidad: "⚡ Eléctrico ×2",
+                    resistencia: "🪨 Lucha –30",
+                    costoRetiro: "1 energía",
+                    ataque: "Chorro de Agua: 💧 (1 energía) → 20 daño",
+                    numeroCarta: "062/198",
+                    desbloqueado: false,
+                    imagen: ""
+                },
+                {
+                    id: 5,
+                    nombre: "Jigglypuff",
+                    tipo: "🎵 Normal",
+                    hp: 70,
+                    tipoCarta: "Pokémon Básico",
+                    debilidad: "🪨 Lucha ×2",
+                    resistencia: "",
+                    costoRetiro: "1 energía",
+                    ataque: "Canto: 🎵 (1 energía) → dormir",
+                    numeroCarta: "039/198",
+                    desbloqueado: true,
+                    imagen: ""
+                }
             ];
             pokemon.push(...ejemplos);
             localStorage.setItem("pokemon_cache", JSON.stringify(pokemon));
@@ -161,7 +291,20 @@ document.addEventListener("DOMContentLoaded", async () => {
         try {
             const maxId = pokemon.length > 0 ? Math.max(...pokemon.map(p => Number(p.id) || 0)) : 0;
             const nuevoId = maxId + 1;
-            let nuevoPokemonObj = { id: nuevoId, nombre, tipo, descripcion: descripcion || "Sin descripción", desbloqueado: !!desbloqueado, nivel: 0 };
+            let nuevoPokemonObj = {
+                id: nuevoId,
+                nombre,
+                tipo,
+                hp: 60, // Valor por defecto
+                tipoCarta: "Pokémon Básico",
+                debilidad: "",
+                resistencia: "",
+                costoRetiro: "1 energía",
+                ataque: descripcion,
+                numeroCarta: "???",
+                desbloqueado: !!desbloqueado,
+                imagen: ""
+            };
 
             const archivo = inputNuevoImagen.files[0];
             if (archivo) {
@@ -211,7 +354,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         try {
             pokemonActual.nombre = nuevoNombre;
             pokemonActual.tipo = nuevoTipo;
-            pokemonActual.descripcion = nuevaDescripcion || "Sin descripción";
+            pokemonActual.ataque = nuevaDescripcion;
             pokemonActual.desbloqueado = desbloqueado;
 
             const inputEditImagen = document.getElementById("edit-imagen");
