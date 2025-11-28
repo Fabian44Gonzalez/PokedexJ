@@ -4,7 +4,7 @@
  * Inicializa la funcionalidad de cambio de tema y navegación entre pantallas.
  * 
  * - Gestiona 4 botones de cambio de tema (uno por pantalla).
- * - Alterna el tema oscuro mediante la clase "op2" en el <body>.
+ * - Alterna entre 4 temas diferentes (blanco/verde, negro/verde, negro/azul, blanco/azul).
  * - Proporciona una función para mostrar el menú principal de Pokémon.
  * 
  * @returns {{ mostrarMenu: Function }} Objeto con la función de navegación.
@@ -22,21 +22,27 @@ export function initTemaYNavegacion() {
   const detallePokemon = document.getElementById("detalle-pokemon");
   const nuevoPokemon = document.getElementById("nuevo-pokemon");
 
-  /**
-   * Alterna entre el tema claro (por defecto) y el tema oscuro (clase "op2").
-   * 
-   * El tema claro se define en :root (CSS), y el oscuro en body.op2.
-   * Solo se necesita gestionar la presencia/ausencia de "op2".
-   */
-  const toggleTema = () => {
-    document.body.classList.toggle("op2");
+  // Array con los nombres de las clases de tema
+  const temas = ['', 'tema-verde-oscuro', 'tema-azul-oscuro', 'tema-azul-claro'];
+  let indiceTemaActual = 0; // Índice del tema actual
+
+  // Función para cambiar al siguiente tema
+  const cambiarTema = () => {
+    // Remover la clase del tema actual
+    document.body.classList.remove(...temas);
+    // Avanzar al siguiente tema
+    indiceTemaActual = (indiceTemaActual + 1) % temas.length;
+    // Añadir la nueva clase de tema
+    if (temas[indiceTemaActual]) {
+      document.body.classList.add(temas[indiceTemaActual]);
+    }
   };
 
   // Añadir evento de cambio de tema a cada botón (si existe)
-  if (btnTemaInicio) btnTemaInicio.addEventListener("click", toggleTema);
-  if (btnTemaMenu) btnTemaMenu.addEventListener("click", toggleTema);
-  if (btnTemaDetalle) btnTemaDetalle.addEventListener("click", toggleTema);
-  if (btnTemaNuevo) btnTemaNuevo.addEventListener("click", toggleTema);
+  if (btnTemaInicio) btnTemaInicio.addEventListener("click", cambiarTema);
+  if (btnTemaMenu) btnTemaMenu.addEventListener("click", cambiarTema);
+  if (btnTemaDetalle) btnTemaDetalle.addEventListener("click", cambiarTema);
+  if (btnTemaNuevo) btnTemaNuevo.addEventListener("click", cambiarTema);
 
   /**
    * Muestra la pantalla del menú de Pokémon y oculta todas las demás.

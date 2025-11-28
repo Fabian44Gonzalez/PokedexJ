@@ -1,32 +1,53 @@
 /* 
-  Opción 1: Tema Claro (Pokédex)
-  Define las variables de color por defecto (modo claro).
-  Se aplican automáticamente al <body> sin clase.
+  Tema 1: Blanco y Verde
 */
 :root {
-    --color-fondo: #f0f0f0; 
+    --color-fondo: #f0fff4; 
     --color-card: #ffffff;
-    --color-texto: #222;
-    --color-borde: #d0d0d0;
-    --color-principal: #e74c3c;       /* Rojo Pokédex */
-    --color-secundario: #c0392b;      /* Rojo más oscuro (hover) */
-    --color-destacado: #f9e79f;       /* Amarillo suave para fondos */
-    --color-pokedex-borde: #8b4513;   /* Marrón oscuro para borde de tarjetas */
+    --color-texto: #2e7d32;
+    --color-borde: #a5d6a7;
+    --color-principal: #4caf50;       
+    --color-secundario: #66bb6a;      
+    --color-destacado: #e8f5e9;       
 }
 
 /* 
-  Opción 2: Tema Oscuro (Pokédex Oscuro)
-  Sobrescribe las variables cuando el body tiene la clase "op2".
+  Tema 2: Negro y Verde
 */
-body.op2 {
-    --color-fondo: #1c1c1c; 
-    --color-card: #2c2c2c;
-    --color-texto: #f0f0f0;
-    --color-borde: #555;
-    --color-principal: #ff6b6b;       /* Rojo claro (contraste en modo oscuro) */
-    --color-secundario: #ff9f80;      /* Rosa pastel */
-    --color-destacado: #454545;       /* Fondo oscuro para áreas destacadas */
-    --color-pokedex-borde: #5a2d0c;   /* Marrón oscuro para borde en modo oscuro */
+.tema-verde-oscuro {
+    --color-fondo: #1b5e20; 
+    --color-card: #2e7d32;
+    --color-texto: #e8f5e9;
+    --color-borde: #4caf50;
+    --color-principal: #81c784;       
+    --color-secundario: #a5d6a7;      
+    --color-destacado: #388e3c;       
+}
+
+/* 
+  Tema 3: Negro y Azul
+*/
+.tema-azul-oscuro {
+    --color-fondo: #0d47a1; 
+    --color-card: #1565c0;
+    --color-texto: #e3f2fd;
+    --color-borde: #42a5f5;
+    --color-principal: #64b5f6;       
+    --color-secundario: #90caf9;      
+    --color-destacado: #1976d2;       
+}
+
+/* 
+  Tema 4: Blanco y Azul
+*/
+.tema-azul-claro {
+    --color-fondo: #e3f2fd; 
+    --color-card: #ffffff;
+    --color-texto: #1976d2;
+    --color-borde: #90caf9;
+    --color-principal: #2196f3;       
+    --color-secundario: #42a5f5;      
+    --color-destacado: #bbdefb;       
 }
 
 /* 
@@ -59,7 +80,8 @@ h1, h2, h3 {
 /* 
   Ajustes adicionales para títulos en modo oscuro
 */
-body.op2 h1, body.op2 h2, body.op2 h3 {
+.tema-verde-oscuro h1, .tema-verde-oscuro h2, .tema-verde-oscuro h3,
+.tema-azul-oscuro h1, .tema-azul-oscuro h2, .tema-azul-oscuro h3 {
     letter-spacing: 3px;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
 }
@@ -76,7 +98,7 @@ section {
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 2px solid var(--color-pokedex-borde); /* Bordes estilo Pokédex */
+    border: 1px solid var(--color-borde);
     text-align: center;
 }
 
@@ -89,13 +111,15 @@ section:hover {
 }
 
 /* 
-  Sombras más intensas en modo oscuro para mejor percepción de profundidad
+  Sombras más intensas en temas oscuros para mejor percepción de profundidad
 */
-body.op2 section {
+.tema-verde-oscuro section,
+.tema-azul-oscuro section {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 
-body.op2 section:hover {
+.tema-verde-oscuro section:hover,
+.tema-azul-oscuro section:hover {
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
 }
 
@@ -124,16 +148,18 @@ button:hover {
 }
 
 /* 
-  Ajustes para botones en modo oscuro
+  Ajustes para botones en temas oscuros
 */
-body.op2 button {
+.tema-verde-oscuro button,
+.tema-azul-oscuro button {
     background: var(--color-principal);
     color: #1c1c1c; /* Texto oscuro para mejor contraste */
     font-weight: bold;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-body.op2 button:hover {
+.tema-verde-oscuro button:hover,
+.tema-azul-oscuro button:hover {
     background: var(--color-secundario);
     transform: translateY(-3px);
 }
@@ -146,7 +172,7 @@ body.op2 button:hover {
 }
 
 /* 
-  Barra de controles superior en pantallas (menú/pokémon)
+  Barra de controles superior en pantallas (menú/logro)
 */
 .controles-menu {
     display: flex;
@@ -156,7 +182,7 @@ body.op2 button:hover {
 }
 
 /* 
-  Grupo de botones a la derecha (agregar pokémon + tema)
+  Grupo de botones a la derecha (agregar logro + tema)
 */
 .grupo-derecha {
     display: flex;
@@ -216,25 +242,20 @@ body.op2 button:hover {
 .form-input:focus {
     outline: none;
     border-color: var(--color-principal);
-    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2); /* Verde por defecto */
+}
+
+.tema-azul-oscuro .form-input:focus,
+.tema-azul-claro .form-input:focus {
+    box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.2); /* Azul */
 }
 
 /* 
-  Ajustes para campos de formulario en modo oscuro
+  Ajustes para campos de formulario en temas oscuros
 */
-body.op2 .form-input {
+.tema-verde-oscuro .form-input,
+.tema-azul-oscuro .form-input {
     background: var(--color-destacado);
-}
-
-body.op2 .form-input:focus {
-    border-color: var(--color-principal);
-    box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.3);
-}
-
-textarea.form-input {
-    width: 90%;
-    height: 120px;
-    resize: vertical;
 }
 
 /* 
@@ -256,11 +277,12 @@ li {
 
 li:hover {
     transform: translateX(5px);
-    background: rgba(231, 76, 60, 0.1);
+    background: rgba(76, 175, 80, 0.1); /* Verde por defecto */
 }
 
-body.op2 li:hover {
-    background: rgba(255, 107, 107, 0.1);
+.tema-azul-oscuro li:hover,
+.tema-azul-claro li:hover {
+    background: rgba(33, 150, 243, 0.1); /* Azul */
 }
 
 /* 
@@ -288,74 +310,9 @@ body.op2 li:hover {
     border-radius: 10px;
 }
 
-body.op2 .contenedor-imagen, body.op2 .imagen-pokemon {
+.tema-verde-oscuro .contenedor-imagen, .tema-verde-oscuro .imagen-pokemon,
+.tema-azul-oscuro .contenedor-imagen, .tema-azul-oscuro .imagen-pokemon {
     background: var(--color-destacado);
-}
-
-/* 
-  Estilo para el área de "Descripción" en el detalle del Pokémon
-*/
-#detalle-descripcion {
-    margin: 15px auto;
-    text-align: left;
-    padding: 12px;
-    border: 1px solid var(--color-borde);
-    border-left: 5px solid var(--color-principal);
-    border-radius: 6px;
-    background: var(--color-card);
-    min-height: 80px;
-    line-height: 1.4;
-    white-space: pre-wrap;         /* respeta saltos de línea */
-    overflow-wrap: anywhere;       /* evita que palabras largas corten el layout */
-    word-break: break-word;        /* compatibilidad extra */
-    box-sizing: border-box;
-}
-
-body.op2 #detalle-descripcion {
-    background: var(--color-card);
-}
-
-.descripcion-titulo {
-    margin: 8px 0 6px;
-    text-align: left;
-    font-weight: 600;
-}
-
-/* 
-  Estilo para el título de nivel (aunque no se usa directamente en HTML actual)
-*/
-.nivel-titulo {
-    margin: 8px 0 6px;
-    text-align: left;
-    font-weight: 600;
-}
-
-/* 
-  Contenedor de estrellas de nivel
-*/
-.estrellas {
-    display: inline-flex;
-    gap: 4px;
-    font-size: 24px;
-    line-height: 1;
-    user-select: none;
-    margin: 8px 0 10px;
-}
-
-/* 
-  Estilo base para cada estrella (vacía)
-*/
-.estrella {
-    cursor: default;
-    color: #c9c9c9;
-    transition: color 0.2s ease;
-}
-
-/* 
-  Estrella activa (llena)
-*/
-.estrella.activa {
-    color: #f2c200;
 }
 
 /* 

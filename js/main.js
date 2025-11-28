@@ -165,7 +165,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 debilidad: "",
                 resistencia: "",
                 costoRetiro: "1 energía",
-                ataque: "", // Campo vacío
+                ataque: "",
                 numeroCarta: "???/???", // ✅ Valor por defecto
                 desbloqueado: !!desbloqueado,
                 imagen: ""
