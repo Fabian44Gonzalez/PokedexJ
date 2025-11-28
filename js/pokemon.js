@@ -82,7 +82,6 @@ export function mostrarDetalle(id) {
   document.getElementById("label-cambiar-imagen").style.display = "none";
 
   // Mostrar todos los campos
-  document.getElementById("detalle-id").textContent = p.id;
   document.getElementById("detalle-nombre").textContent = p.nombre;
   document.getElementById("detalle-tipo").textContent = p.tipo;
   document.getElementById("detalle-hp").textContent = p.hp;
@@ -94,63 +93,12 @@ export function mostrarDetalle(id) {
   document.getElementById("detalle-numero-carta").textContent = p.numeroCarta;
   document.getElementById("detalle-desbloqueado").textContent = p.desbloqueado ? "Sí" : "No";
 
-  // Renderizar nivel como estrellas no editables
-  renderEstrellasDetalle(p.nivel || 0);
-
   // Mostrar descripción
   document.getElementById("detalle-descripcion").textContent = p.descripcion;
 
   // Ocultar botón "Editar" por defecto y mostrarlo solo si autenticado (ahora no es necesario)
   document.getElementById("btn-editar-pokemon").style.display = "inline-block";
   document.getElementById("btn-guardar-pokemon").style.display = "none";
-}
-
-/**
- * Renderiza las estrellas de nivel en modo visualización (no editable).
- * 
- * @param {number} valor - Número de estrellas activas (0 a 5).
- */
-function renderEstrellasDetalle(valor) {
-    const cont = document.getElementById("detalle-nivel");
-    cont.innerHTML = "";
-    for (let i = 1; i <= 5; i++) {
-        const span = document.createElement("span");
-        span.className = `estrella ${i <= valor ? 'activa' : ''}`;
-        span.textContent = "★";
-        cont.appendChild(span);
-    }
-}
-
-/**
- * Renderiza las estrellas de nivel en modo edición (interactivo).
- * 
- * @param {number} valorInicial - Número inicial de estrellas activas.
- */
-function renderEstrellasEditable(valorInicial = 0) {
-    const cont = document.getElementById("detalle-nivel");
-    cont.innerHTML = "";
-    cont.classList.add('editable');
-    for (let i = 1; i <= 5; i++) {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = `estrella ${i <= valorInicial ? 'activa' : ''}`;
-        btn.textContent = "★";
-        btn.style.cursor = 'pointer';
-        btn.setAttribute('aria-label', `${i} de 5`);
-        // Al hacer clic, activa todas las estrellas hasta la seleccionada
-        btn.addEventListener('click', () => {
-            const estrellas = cont.querySelectorAll('.estrella');
-            estrellas.forEach((el, idx) => {
-                if (idx < i) el.classList.add('activa');
-                else el.classList.remove('activa');
-            });
-            // Guardar valor seleccionado en dataset
-            cont.dataset.valor = String(i);
-        });
-        cont.appendChild(btn);
-    }
-    // Inicializar dataset con valor por defecto
-    cont.dataset.valor = String(valorInicial || 0);
 }
 
 /**
@@ -163,7 +111,6 @@ export function editarPokemon(p) {
 
   // Reemplazar todos los campos con inputs
   document.getElementById("detalle-titulo").innerHTML = `Pokémon: <input type="text" id="edit-nombre" class="form-input" value="${p.nombre}" maxlength="50">`;
-  document.getElementById("detalle-id").innerHTML = `<input type="text" id="edit-id" class="form-input" value="${p.id}" maxlength="10" disabled>`; // ID no editable
   document.getElementById("detalle-nombre").innerHTML = `<input type="text" id="edit-nombre" class="form-input" value="${p.nombre}" maxlength="50">`;
   document.getElementById("detalle-tipo").innerHTML = `<input type="text" id="edit-tipo" class="form-input" value="${p.tipo}" maxlength="50">`;
   document.getElementById("detalle-hp").innerHTML = `<input type="number" id="edit-hp" class="form-input" value="${p.hp}" min="1" max="300">`;
@@ -174,9 +121,6 @@ export function editarPokemon(p) {
   document.getElementById("detalle-ataque").innerHTML = `<input type="text" id="edit-ataque" class="form-input" value="${p.ataque}" maxlength="100">`;
   document.getElementById("detalle-numero-carta").innerHTML = `<input type="text" id="edit-numero-carta" class="form-input" value="${p.numeroCarta}" maxlength="10">`;
   document.getElementById("detalle-desbloqueado").innerHTML = `<label>Desbloqueado: <input type="checkbox" id="edit-desbloqueado" ${p.desbloqueado ? "checked" : ""}></label>`;
-
-  // Renderizar estrellas editables
-  renderEstrellasEditable(Number(p.nivel) || 0);
 
   // Mostrar control de imagen y botón de guardar
   document.getElementById("label-cambiar-imagen").style.display = "block";
@@ -196,7 +140,6 @@ export function volverAMostrarDetalle(id) {
 
   // Restaurar todos los campos
   document.getElementById("detalle-titulo").textContent = `Pokémon: ${p.nombre}`;
-  document.getElementById("detalle-id").textContent = p.id;
   document.getElementById("detalle-nombre").textContent = p.nombre;
   document.getElementById("detalle-tipo").textContent = p.tipo;
   document.getElementById("detalle-hp").textContent = p.hp;
@@ -208,12 +151,8 @@ export function volverAMostrarDetalle(id) {
   document.getElementById("detalle-numero-carta").textContent = p.numeroCarta;
   document.getElementById("detalle-desbloqueado").textContent = p.desbloqueado ? "Sí" : "No";
 
-  // Renderizar estrellas no editables
-  renderEstrellasDetalle(Number(p.nivel) || 0);
-
   // Eliminar elementos de edición del DOM
   const detalleContenedor = document.getElementById('detalle-pokemon');
-  detalleContenedor.querySelector('#edit-id')?.remove();
   detalleContenedor.querySelector('#edit-nombre')?.remove();
   detalleContenedor.querySelector('#edit-tipo')?.remove();
   detalleContenedor.querySelector('#edit-hp')?.remove();
