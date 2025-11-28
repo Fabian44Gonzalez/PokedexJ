@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 resistencia: "",
                 costoRetiro: "1 energía",
                 ataque: descripcion,
-                numeroCarta: "???",
+                numeroCarta: "???/???", // ✅ Valor por defecto
                 desbloqueado: !!desbloqueado,
                 imagen: ""
             };
@@ -206,13 +206,20 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const nuevoNombre = document.getElementById("edit-nombre").value.trim();
         const nuevoTipo = document.getElementById("edit-tipo").value.trim();
-        const nuevaDescripcion = document.getElementById("edit-descripcion").value.trim();
+        const nuevoHp = parseInt(document.getElementById("edit-hp").value);
+        const nuevoTipoCarta = document.getElementById("edit-tipo-carta").value.trim();
+        const nuevaDebilidad = document.getElementById("edit-debilidad").value.trim();
+        const nuevaResistencia = document.getElementById("edit-resistencia").value.trim();
+        const nuevoCostoRetiro = document.getElementById("edit-costo-retiro").value.trim();
+        const nuevoAtaque = document.getElementById("edit-ataque").value.trim();
+        const nuevoNumeroCarta = document.getElementById("edit-numero-carta").value.trim();
         const desbloqueado = document.getElementById("edit-desbloqueado").checked;
 
         if (!nuevoNombre) { alert("El nombre del Pokémon es obligatorio."); return; }
         if (!nuevoTipo) { alert("El tipo del Pokémon es obligatorio."); return; }
+        if (isNaN(nuevoHp) || nuevoHp <= 0) { alert("El HP debe ser un número válido."); return; }
         if (nuevoNombre.length > 50) { alert("El nombre no puede superar 50 caracteres."); return; }
-        if (nuevaDescripcion.length > 200) { alert("La descripción no puede superar 200 caracteres."); return; }
+        if (nuevoAtaque.length > 100) { alert("El ataque no puede superar 100 caracteres."); return; }
 
         const prevText = btnGuardar.textContent;
         btnGuardar.textContent = "Guardando...";
@@ -222,7 +229,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         try {
             pokemonActual.nombre = nuevoNombre;
             pokemonActual.tipo = nuevoTipo;
-            pokemonActual.ataque = nuevaDescripcion;
+            pokemonActual.hp = nuevoHp;
+            pokemonActual.tipoCarta = nuevoTipoCarta;
+            pokemonActual.debilidad = nuevaDebilidad;
+            pokemonActual.resistencia = nuevaResistencia;
+            pokemonActual.costoRetiro = nuevoCostoRetiro;
+            pokemonActual.ataque = nuevoAtaque;
+            pokemonActual.numeroCarta = nuevoNumeroCarta;
             pokemonActual.desbloqueado = desbloqueado;
 
             const inputEditImagen = document.getElementById("edit-imagen");

@@ -54,42 +54,103 @@ export function renderizarPokemones(pokemonDesbloqueados, pokemonBloqueados) {
  * @param {string|number} id - ID del Pokémon a mostrar.
  */
 export function mostrarDetalle(id) {
-    // Buscar Pokémon por ID (comparación flexible de tipo)
-    const p = pokemon.find(p => String(p.id) === String(id));
-    if (!p) return;
-    pokemonActual = p;
+  // Buscar Pokémon por ID (comparación flexible de tipo)
+  const p = pokemon.find(p => String(p.id) === String(id));
+  if (!p) return;
+  pokemonActual = p;
 
-    // Cambiar visibilidad de pantallas
-    document.getElementById("menu-pokemon").style.display = "none";
-    document.getElementById("detalle-pokemon").style.display = "block";
+  // Cambiar visibilidad de pantallas
+  document.getElementById("menu-pokemon").style.display = "none";
+  document.getElementById("detalle-pokemon").style.display = "block";
 
-    // Actualizar título
-    document.getElementById("detalle-titulo").textContent = `Pokémon: ${p.nombre}`;
+  // Actualizar título
+  document.getElementById("detalle-titulo").textContent = `Pokémon: ${p.nombre}`;
 
-    // Renderizar imagen
-    const contenedorImagen = document.getElementById("detalle-imagen");
-    contenedorImagen.innerHTML = "";
-    if (p.imagen) {
-        const img = document.createElement("img");
-        img.src = p.imagen;
-        img.alt = `Imagen del Pokémon "${p.nombre}"`;
-        contenedorImagen.appendChild(img);
-    } else {
-        contenedorImagen.textContent = "(espacio para imagen)";
+  // Renderizar imagen
+  const contenedorImagen = document.getElementById("detalle-imagen");
+  contenedorImagen.innerHTML = "";
+  if (p.imagen) {
+    const img = document.createElement("img");
+    img.src = p.imagen;
+    img.alt = `Imagen del Pokémon "${p.nombre}"`;
+    contenedorImagen.appendChild(img);
+  } else {
+    contenedorImagen.textContent = "(espacio para imagen)";
+  }
+
+  // Ocultar control de cambio de imagen (solo visible en edición)
+  document.getElementById("label-cambiar-imagen").style.display = "none";
+
+  // Mostrar todos los campos
+  document.getElementById("detalle-id").textContent = p.id;
+  document.getElementById("detalle-nombre").textContent = p.nombre;
+  document.getElementById("detalle-tipo").textContent = p.tipo;
+  document.getElementById("detalle-hp").textContent = p.hp;
+  document.getElementById("detalle-tipo-carta").textContent = p.tipoCarta;
+  document.getElementById("detalle-debilidad").textContent = p.debilidad;
+  document.getElementById("detalle-resistencia").textContent = p.resistencia;
+  document.getElementById("detalle-costo-retiro").textContent = p.costoRetiro;
+  document.getElementById("detalle-ataque").textContent = p.ataque;
+  document.getElementById("detalle-numero-carta").textContent = p.numeroCarta;
+  document.getElementById("detalle-desbloqueado").textContent = p.desbloqueado ? "Sí" : "No";
+
+  // Renderizar nivel como estrellas no editables
+  renderEstrellasDetalle(p.nivel || 0);
+
+  // Mostrar descripción
+  document.getElementById("detalle-descripcion").textContent = p.descripcion;
+
+  // Ocultar botón "Editar" por defecto y mostrarlo solo si autenticado (ahora no es necesario)
+  document.getElementById("btn-editar-pokemon").style.display = "inline-block";
+  document.getElementById("btn-guardar-pokemon").style.display = "none";
+}
+
+/**
+ * Renderiza las estrellas de nivel en modo visualización (no editable).
+ * 
+ * @param {number} valor - Número de estrellas activas (0 a 5).
+ */
+function renderEstrellasDetalle(valor) {
+    const cont = document.getElementById("detalle-nivel");
+    cont.innerHTML = "";
+    for (let i = 1; i <= 5; i++) {
+        const span = document.createElement("span");
+        span.className = `estrella ${i <= valor ? 'activa' : ''}`;
+        span.textContent = "★";
+        cont.appendChild(span);
     }
+}
 
-    // Ocultar control de cambio de imagen (solo visible en edición)
-    document.getElementById("label-cambiar-imagen").style.display = "none";
-
-    // Mostrar tipo
-    document.getElementById("detalle-tipo").textContent = p.tipo;
-
-    // Mostrar descripción
-    document.getElementById("detalle-descripcion").textContent = p.descripcion;
-
-    // Ocultar botón "Editar" por defecto y mostrarlo solo si autenticado (ahora no es necesario)
-    document.getElementById("btn-editar-pokemon").style.display = "inline-block";
-    document.getElementById("btn-guardar-pokemon").style.display = "none";
+/**
+ * Renderiza las estrellas de nivel en modo edición (interactivo).
+ * 
+ * @param {number} valorInicial - Número inicial de estrellas activas.
+ */
+function renderEstrellasEditable(valorInicial = 0) {
+    const cont = document.getElementById("detalle-nivel");
+    cont.innerHTML = "";
+    cont.classList.add('editable');
+    for (let i = 1; i <= 5; i++) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = `estrella ${i <= valorInicial ? 'activa' : ''}`;
+        btn.textContent = "★";
+        btn.style.cursor = 'pointer';
+        btn.setAttribute('aria-label', `${i} de 5`);
+        // Al hacer clic, activa todas las estrellas hasta la seleccionada
+        btn.addEventListener('click', () => {
+            const estrellas = cont.querySelectorAll('.estrella');
+            estrellas.forEach((el, idx) => {
+                if (idx < i) el.classList.add('activa');
+                else el.classList.remove('activa');
+            });
+            // Guardar valor seleccionado en dataset
+            cont.dataset.valor = String(i);
+        });
+        cont.appendChild(btn);
+    }
+    // Inicializar dataset con valor por defecto
+    cont.dataset.valor = String(valorInicial || 0);
 }
 
 /**
@@ -98,24 +159,29 @@ export function mostrarDetalle(id) {
  * @param {Object} p - Objeto del Pokémon a editar.
  */
 export function editarPokemon(p) {
-    if (!p) return;
+  if (!p) return;
 
-    // Reemplazar contenido de título, tipo y descripción con inputs
-    const titulo = document.getElementById("detalle-titulo");
-    const tipo = document.getElementById("detalle-tipo");
-    const descripcion = document.getElementById("detalle-descripcion");
+  // Reemplazar todos los campos con inputs
+  document.getElementById("detalle-titulo").innerHTML = `Pokémon: <input type="text" id="edit-nombre" class="form-input" value="${p.nombre}" maxlength="50">`;
+  document.getElementById("detalle-id").innerHTML = `<input type="text" id="edit-id" class="form-input" value="${p.id}" maxlength="10" disabled>`; // ID no editable
+  document.getElementById("detalle-nombre").innerHTML = `<input type="text" id="edit-nombre" class="form-input" value="${p.nombre}" maxlength="50">`;
+  document.getElementById("detalle-tipo").innerHTML = `<input type="text" id="edit-tipo" class="form-input" value="${p.tipo}" maxlength="50">`;
+  document.getElementById("detalle-hp").innerHTML = `<input type="number" id="edit-hp" class="form-input" value="${p.hp}" min="1" max="300">`;
+  document.getElementById("detalle-tipo-carta").innerHTML = `<input type="text" id="edit-tipo-carta" class="form-input" value="${p.tipoCarta}" maxlength="50">`;
+  document.getElementById("detalle-debilidad").innerHTML = `<input type="text" id="edit-debilidad" class="form-input" value="${p.debilidad}" maxlength="50">`;
+  document.getElementById("detalle-resistencia").innerHTML = `<input type="text" id="edit-resistencia" class="form-input" value="${p.resistencia}" maxlength="50">`;
+  document.getElementById("detalle-costo-retiro").innerHTML = `<input type="text" id="edit-costo-retiro" class="form-input" value="${p.costoRetiro}" maxlength="20">`;
+  document.getElementById("detalle-ataque").innerHTML = `<input type="text" id="edit-ataque" class="form-input" value="${p.ataque}" maxlength="100">`;
+  document.getElementById("detalle-numero-carta").innerHTML = `<input type="text" id="edit-numero-carta" class="form-input" value="${p.numeroCarta}" maxlength="10">`;
+  document.getElementById("detalle-desbloqueado").innerHTML = `<label>Desbloqueado: <input type="checkbox" id="edit-desbloqueado" ${p.desbloqueado ? "checked" : ""}></label>`;
 
-    titulo.innerHTML = `Pokémon: <input type="text" id="edit-nombre" class="form-input" value="${p.nombre}" maxlength="50">`;
-    tipo.innerHTML = `Tipo: <input type="text" id="edit-tipo" class="form-input" value="${p.tipo}" maxlength="50">`;
-    descripcion.innerHTML = `
-        <textarea id="edit-descripcion" class="form-input" maxlength="200">${p.descripcion}</textarea>
-        <label>Desbloqueado: <input type="checkbox" id="edit-desbloqueado" ${p.desbloqueado ? "checked" : ""}></label>
-    `;
+  // Renderizar estrellas editables
+  renderEstrellasEditable(Number(p.nivel) || 0);
 
-    // Mostrar control de imagen y botón de guardar
-    document.getElementById("label-cambiar-imagen").style.display = "block";
-    document.getElementById("btn-editar-pokemon").style.display = "none";
-    document.getElementById("btn-guardar-pokemon").style.display = "inline-block";
+  // Mostrar control de imagen y botón de guardar
+  document.getElementById("label-cambiar-imagen").style.display = "block";
+  document.getElementById("btn-editar-pokemon").style.display = "none";
+  document.getElementById("btn-guardar-pokemon").style.display = "inline-block";
 }
 
 /**
@@ -124,25 +190,44 @@ export function editarPokemon(p) {
  * @param {string|number} id - ID del Pokémon a mostrar.
  */
 export function volverAMostrarDetalle(id) {
-    const p = pokemon.find(p => String(p.id) === String(id));
-    if (!p) return;
-    pokemonActual = p;
+  const p = pokemon.find(p => String(p.id) === String(id));
+  if (!p) return;
+  pokemonActual = p;
 
-    // Restaurar contenido de texto
-    document.getElementById("detalle-titulo").textContent = `Pokémon: ${p.nombre}`;
-    document.getElementById("detalle-tipo").textContent = p.tipo;
-    document.getElementById("detalle-descripcion").textContent = p.descripcion;
+  // Restaurar todos los campos
+  document.getElementById("detalle-titulo").textContent = `Pokémon: ${p.nombre}`;
+  document.getElementById("detalle-id").textContent = p.id;
+  document.getElementById("detalle-nombre").textContent = p.nombre;
+  document.getElementById("detalle-tipo").textContent = p.tipo;
+  document.getElementById("detalle-hp").textContent = p.hp;
+  document.getElementById("detalle-tipo-carta").textContent = p.tipoCarta;
+  document.getElementById("detalle-debilidad").textContent = p.debilidad;
+  document.getElementById("detalle-resistencia").textContent = p.resistencia;
+  document.getElementById("detalle-costo-retiro").textContent = p.costoRetiro;
+  document.getElementById("detalle-ataque").textContent = p.ataque;
+  document.getElementById("detalle-numero-carta").textContent = p.numeroCarta;
+  document.getElementById("detalle-desbloqueado").textContent = p.desbloqueado ? "Sí" : "No";
 
-    // Eliminar elementos de edición del DOM
-    const detalleContenedor = document.getElementById('detalle-pokemon');
-    detalleContenedor.querySelector('#edit-nombre')?.remove();
-    detalleContenedor.querySelector('#edit-tipo')?.remove();
-    detalleContenedor.querySelector('#edit-descripcion')?.remove();
-    detalleContenedor.querySelector('#edit-desbloqueado')?.remove();
+  // Renderizar estrellas no editables
+  renderEstrellasDetalle(Number(p.nivel) || 0);
 
-    // Mostrar botón "Editar" y ocultar botón "Guardar"
-    document.getElementById("btn-editar-pokemon").style.display = "inline-block";
-    document.getElementById("btn-guardar-pokemon").style.display = "none";
+  // Eliminar elementos de edición del DOM
+  const detalleContenedor = document.getElementById('detalle-pokemon');
+  detalleContenedor.querySelector('#edit-id')?.remove();
+  detalleContenedor.querySelector('#edit-nombre')?.remove();
+  detalleContenedor.querySelector('#edit-tipo')?.remove();
+  detalleContenedor.querySelector('#edit-hp')?.remove();
+  detalleContenedor.querySelector('#edit-tipo-carta')?.remove();
+  detalleContenedor.querySelector('#edit-debilidad')?.remove();
+  detalleContenedor.querySelector('#edit-resistencia')?.remove();
+  detalleContenedor.querySelector('#edit-costo-retiro')?.remove();
+  detalleContenedor.querySelector('#edit-ataque')?.remove();
+  detalleContenedor.querySelector('#edit-numero-carta')?.remove();
+  detalleContenedor.querySelector('#edit-desbloqueado')?.remove();
+
+  // Mostrar botón "Editar" y ocultar botón "Guardar"
+  document.getElementById("btn-editar-pokemon").style.display = "inline-block";
+  document.getElementById("btn-guardar-pokemon").style.display = "none";
 }
 
 /**
