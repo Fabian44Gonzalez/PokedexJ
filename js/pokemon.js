@@ -81,16 +81,59 @@ export function mostrarDetalle(id) {
   // Ocultar control de cambio de imagen (solo visible en edición)
   document.getElementById("label-cambiar-imagen").style.display = "none";
 
-  // Mostrar todos los campos
-  document.getElementById("detalle-nombre").textContent = p.nombre;
-  document.getElementById("detalle-tipo").textContent = p.tipo;
-  document.getElementById("detalle-hp").textContent = p.hp;
-  document.getElementById("detalle-tipo-carta").textContent = p.tipoCarta;
-  document.getElementById("detalle-debilidad").textContent = p.debilidad;
-  document.getElementById("detalle-resistencia").textContent = p.resistencia;
-  document.getElementById("detalle-costo-retiro").textContent = p.costoRetiro;
-  document.getElementById("detalle-ataque").textContent = p.ataque;
-  document.getElementById("detalle-numero-carta").textContent = p.numeroCarta;
+  // Mostrar solo campos que tengan valor
+  const container = document.querySelector("#detalle-pokemon .info-pokemon");
+
+  // Limpiar campos visibles (excepto imagen y botones)
+  const camposVisibles = container.querySelectorAll("p:not(#detalle-imagen)");
+  camposVisibles.forEach(el => el.remove());
+
+  // Crear y mostrar solo campos con valor
+  if (p.nombre) {
+    const nombre = document.createElement("p");
+    nombre.innerHTML = `<strong>Nombre:</strong> <span>${p.nombre}</span>`;
+    container.insertBefore(nombre, document.getElementById("btn-guardar-pokemon"));
+  }
+  if (p.tipo) {
+    const tipo = document.createElement("p");
+    tipo.innerHTML = `<strong>Tipo:</strong> <span>${p.tipo}</span>`;
+    container.insertBefore(tipo, document.getElementById("btn-guardar-pokemon"));
+  }
+  if (p.hp) {
+    const hp = document.createElement("p");
+    hp.innerHTML = `<strong>HP:</strong> <span>${p.hp}</span>`;
+    container.insertBefore(hp, document.getElementById("btn-guardar-pokemon"));
+  }
+  if (p.tipoCarta) {
+    const tipoCarta = document.createElement("p");
+    tipoCarta.innerHTML = `<strong>Tipo de Carta:</strong> <span>${p.tipoCarta}</span>`;
+    container.insertBefore(tipoCarta, document.getElementById("btn-guardar-pokemon"));
+  }
+  if (p.debilidad) {
+    const debilidad = document.createElement("p");
+    debilidad.innerHTML = `<strong>Debilidad:</strong> <span>${p.debilidad}</span>`;
+    container.insertBefore(debilidad, document.getElementById("btn-guardar-pokemon"));
+  }
+  if (p.resistencia) {
+    const resistencia = document.createElement("p");
+    resistencia.innerHTML = `<strong>Resistencia:</strong> <span>${p.resistencia}</span>`;
+    container.insertBefore(resistencia, document.getElementById("btn-guardar-pokemon"));
+  }
+  if (p.costoRetiro) {
+    const costoRetiro = document.createElement("p");
+    costoRetiro.innerHTML = `<strong>Costo de Retiro:</strong> <span>${p.costoRetiro}</span>`;
+    container.insertBefore(costoRetiro, document.getElementById("btn-guardar-pokemon"));
+  }
+  if (p.ataque) {
+    const ataque = document.createElement("p");
+    ataque.innerHTML = `<strong>Ataque:</strong> <span>${p.ataque}</span>`;
+    container.insertBefore(ataque, document.getElementById("btn-guardar-pokemon"));
+  }
+  if (p.numeroCarta) {
+    const numeroCarta = document.createElement("p");
+    numeroCarta.innerHTML = `<strong>Número de Carta:</strong> <span>${p.numeroCarta}</span>`;
+    container.insertBefore(numeroCarta, document.getElementById("btn-guardar-pokemon"));
+  }
 
   // Ocultar botón "Editar" por defecto y mostrarlo solo si autenticado (ahora no es necesario)
   document.getElementById("btn-editar-pokemon").style.display = "inline-block";
