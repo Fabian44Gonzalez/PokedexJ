@@ -9,44 +9,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     // 🔑 Inicializar tema y navegación
     const { mostrarMenu } = initTemaYNavegacion(); // Guardamos la función mostrarMenu
 
-    // 🔑 Referencias para login secreto (ahora no se usan)
-    const loginSecreto = document.getElementById("login-secreto");
-    const btnLogin = document.getElementById("btn-login");
-    const btnLogout = document.getElementById("btn-logout");
-    const emailInput = document.getElementById("login-email");
-    const passwordInput = document.getElementById("login-password");
-
-    // 🔑 Ocultar login secreto permanentemente
-    loginSecreto.style.display = "none";
-
-    // 🔑 Mostrar login al presionar 'L' (solo escritorio)
-    document.addEventListener("keydown", (e) => {
-        if (e.key === "l" || e.key === "L") {
-            alert("Sistema de login desactivado.");
-        }
-    });
-
-    // 🔑 Login secreto por toque (móvil): 5 toques en el título
-    let toques = 0;
-    let ultimoToque = 0;
-    const titulo = document.querySelector("header h1");
-    if (titulo) {
-        titulo.addEventListener("click", () => {
-            const ahora = Date.now();
-            if (ahora - ultimoToque < 500) {
-                toques++;
-            } else {
-                toques = 1;
-            }
-            ultimoToque = ahora;
-
-            if (toques >= 5) {
-                alert("Sistema de login desactivado.");
-                toques = 0;
-            }
-        });
-    }
-
     // === 🔑 NUEVO: Lógica del filtro de Pokémon ===
     const selectFiltro = document.getElementById("filtro-pokemon");
     const seccionDesbloqueados = document.getElementById("seccion-desbloqueados");
@@ -260,7 +222,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Resto de event listeners (usando mostrarMenuLocal)
     btnIniciar.addEventListener("click", () => {
-        mostrarMenuLocal(); // ✅ Usa la nueva función
+        mostrarMenuLocal(); // ✅ Ahora sí llama a la función
     });
 
     btnVolverMenuDetalle.addEventListener("click", () => {
