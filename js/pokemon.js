@@ -181,6 +181,7 @@ export function mostrarDetalle(id) {
   // Ocultar botón "Editar" por defecto y mostrarlo solo si autenticado (ahora no es necesario)
   document.getElementById("btn-editar-pokemon").style.display = "inline-block";
   document.getElementById("btn-guardar-pokemon").style.display = "none";
+  document.getElementById("btn-eliminar-pokemon").style.display = "none";
 }
 
 /**
@@ -203,10 +204,39 @@ export function editarPokemon(p) {
   document.getElementById("detalle-ataque").innerHTML = `<input type="text" id="edit-ataque" class="form-input" value="${p.ataque}" maxlength="100">`;
   document.getElementById("detalle-numero-carta").innerHTML = `<input type="text" id="edit-numero-carta" class="form-input" value="${p.numeroCarta}" maxlength="10">`;
 
-  // Mostrar control de imagen y botón de guardar
+  // Mostrar control de imagen y botones de guardar/eliminar
   document.getElementById("label-cambiar-imagen").style.display = "block";
   document.getElementById("btn-editar-pokemon").style.display = "none";
   document.getElementById("btn-guardar-pokemon").style.display = "inline-block";
+  document.getElementById("btn-eliminar-pokemon").style.display = "inline-block";
+}
+
+/**
+ * Elimina un Pokémon de la lista y de Firebase.
+ * 
+ * @param {Object} p - Objeto del Pokémon a eliminar.
+ */
+export function eliminarPokemon(p) {
+  if (!p) return;
+
+  // Confirmar eliminación
+  if (confirm(`¿Estás seguro de que quieres eliminar a "${p.nombre}"? Esta acción no se puede deshacer.`)) {
+    const indice = pokemon.findIndex(item => item.id === p.id);
+    if (indice !== -1) {
+      pokemon.splice(indice, 1);
+    }
+
+    // Eliminar de Firebase
+    const database = firebase.database();
+    database.ref("pokemon/" + p.id).remove();
+
+    // Actualizar caché
+    localStorage.setItem("pokemon_cache", JSON.stringify(pokemon));
+
+    // Volver al menú principal
+    document.getElementById("detalle-pokemon").style.display = "none";
+    document.getElementById("menu-pokemon").style.display = "block";
+  }
 }
 
 /**
@@ -243,9 +273,10 @@ export function volverAMostrarDetalle(id) {
   detalleContenedor.querySelector('#edit-ataque')?.remove();
   detalleContenedor.querySelector('#edit-numero-carta')?.remove();
 
-  // Mostrar botón "Editar" y ocultar botón "Guardar"
+  // Mostrar botón "Editar" y ocultar botón "Guardar/Eliminar"
   document.getElementById("btn-editar-pokemon").style.display = "inline-block";
   document.getElementById("btn-guardar-pokemon").style.display = "none";
+  document.getElementById("btn-eliminar-pokemon").style.display = "none";
 }
 
 /**

@@ -1,6 +1,6 @@
 import { initFirebase } from "./firebase.js";
 import { initTemaYNavegacion } from "./tema.js"; // Importamos la función
-import { pokemon, renderizarPokemones, mostrarDetalle, editarPokemon, volverAMostrarDetalle, pokemonActual, setPokemonActual, convertirImagenABase64 } from "./pokemon.js";
+import { pokemon, renderizarPokemones, mostrarDetalle, editarPokemon, volverAMostrarDetalle, pokemonActual, setPokemonActual, convertirImagenABase64, eliminarPokemon } from "./pokemon.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
     // Inicializar Firebase
@@ -101,6 +101,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     const pantallaInicial = document.getElementById("pantalla-inicial");
     const menuPokemon = document.getElementById("menu-pokemon");
     const detallePokemon = document.getElementById("detalle-pokemon");
+    const pokemonDesbloqueados = document.getElementById("pokemon-desbloqueados");
+    const pokemonBloqueados = document.getElementById("pokemon-bloqueados");
     const inputEntrenador1 = document.getElementById("entrenador1");
     const btnIniciar = document.getElementById("btn-iniciar");
     const btnVolverMenuDetalle = document.getElementById("btn-volver-menu");
@@ -235,6 +237,29 @@ document.addEventListener("DOMContentLoaded", async () => {
             btnGuardar.textContent = prevText;
             btnGuardar.disabled = false;
             btnGuardar.removeAttribute("aria-busy");
+        }
+    });
+
+    // 🔑 Botón de eliminar Pokémon (sin autenticación)
+    const btnEliminar = document.getElementById("btn-eliminar-pokemon");
+    btnEliminar.addEventListener("click", () => {
+        if (!pokemonActual) return;
+
+        if (confirm(`¿Estás seguro de que quieres eliminar a "${pokemonActual.nombre}"? Esta acción no se puede deshacer.`)) {
+            const indice = pokemon.findIndex(p => p.id === pokemonActual.id);
+            if (indice !== -1) {
+                pokemon.splice(indice, 1);
+            }
+
+            // Eliminar de Firebase
+            await database.ref("pokemon/" + pokemonActual.id).remove();
+
+            // Actualizar caché
+            localStorage.setItem("pokemon_cache", JSON.stringify(pokemon));
+
+            // Volver al menú principal
+            document.getElementById("detalle-pokemon").style.display = "none";
+            document.getElementById("menu-pokemon").style.display = "block";
         }
     });
 
