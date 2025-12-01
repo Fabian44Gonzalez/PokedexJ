@@ -15,13 +15,7 @@ export function initTemaYNavegacion() {
   const btnTemaMenu = document.getElementById("btn-cambiar-tema-menu");
   const btnTemaDetalle = document.getElementById("btn-cambiar-tema-detalle");
   const btnTemaNuevo = document.getElementById("btn-cambiar-tema-nuevo");
-
-  // Referencias a las secciones/pantallas
-  const pantallaInicial = document.getElementById("pantalla-inicial");
-  const menuPokemon = document.getElementById("menu-pokemon");
-  const detallePokemon = document.getElementById("detalle-pokemon");
-  const nuevoPokemon = document.getElementById("nuevo-pokemon");
-
+  
   // Array con los nombres de las clases de tema
   const temas = ['', 'tema-verde-oscuro', 'tema-azul-oscuro', 'tema-azul-claro'];
   let indiceTemaActual = 0; // Índice del tema actual
@@ -49,10 +43,14 @@ export function initTemaYNavegacion() {
    */
   function mostrarMenu() {
     // Ocultar todas las pantallas excepto el menú
-    pantallaInicial.style.display = "none";
-    if (detallePokemon) detallePokemon.style.display = "none";
-    if (nuevoPokemon) nuevoPokemon.style.display = "none";
-    menuPokemon.style.display = "block";
+    document.getElementById("pantalla-inicial").style.display = "none";
+    if (document.getElementById("detalle-pokemon")) {
+        document.getElementById("detalle-pokemon").style.display = "none";
+    }
+    if (document.getElementById("nuevo-pokemon")) {
+        document.getElementById("nuevo-pokemon").style.display = "none";
+    }
+    document.getElementById("menu-pokemon").style.display = "block";
   }
 
   return { mostrarMenu };

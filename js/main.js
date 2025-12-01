@@ -252,7 +252,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
 
             // Eliminar de Firebase
-            await database.ref("pokemon/" + pokemonActual.id).remove();
+            database.ref("pokemon/" + pokemonActual.id).remove();
 
             // Actualizar caché
             localStorage.setItem("pokemon_cache", JSON.stringify(pokemon));
@@ -263,7 +263,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
 
-    // Resto de event listeners (usando mostrarMenuLocal)
+    // === Eventos de navegación ===
     btnIniciar.addEventListener("click", () => {
         mostrarMenuLocal(); // ✅ Ahora sí llama a la función
     });
