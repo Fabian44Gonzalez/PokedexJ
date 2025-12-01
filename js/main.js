@@ -155,15 +155,14 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
 
             await database.ref("pokemon/" + nuevoId).set(nuevoPokemonObj);
-            pokemon.push(nuevoPokemonObj); // ✅ Añadir a la lista local
-
-            // ✅ Actualizar caché y renderizar
-            localStorage.setItem("pokemon_cache", JSON.stringify(pokemon));
-            renderizarConFiltro(); // ✅ Solo renderizar, sin recargar desde Firebase
+            pokemon.push(nuevoPokemonObj);
 
             nuevoPokemon.style.display = "none";
             mostrarDetalle(nuevoId);
             limpiarCampos();
+            // Actualizar caché y renderizar
+            localStorage.setItem("pokemon_cache", JSON.stringify(pokemon));
+            renderizarConFiltro(); // ✅ Solo renderizar, sin recargar desde Firebase
         } catch (error) {
             console.error("Error al guardar el nuevo Pokémon:", error);
             alert("Ocurrió un error al guardar el Pokémon. Inténtalo de nuevo.");
