@@ -121,69 +121,6 @@ export function renderizarPokemones(listaPokemon, filtro) {
             });
             listaPokemon.appendChild(grupo);
         }
-    } else if (filtro === 'resistencia') {
-        const agrupados = {};
-        pokemon.forEach(p => {
-            const resistencia = p.resistencia || 'Sin Resistencia';
-            if (!agrupados[resistencia]) agrupados[resistencia] = [];
-            agrupados[resistencia].push(p);
-        });
-        for (const tipo in agrupados) {
-            const grupo = document.createElement("li");
-            grupo.innerHTML = `<h4>${tipo}</h4><ul></ul>`;
-            const subLista = grupo.querySelector("ul");
-            agrupados[tipo].forEach(p => {
-                const item = document.createElement("li");
-                const btn = document.createElement("button");
-                btn.textContent = p.nombre;
-                btn.addEventListener("click", () => mostrarDetalle(p.id));
-                item.appendChild(btn);
-                subLista.appendChild(item);
-            });
-            listaPokemon.appendChild(grupo);
-        }
-    } else if (filtro === 'costoRetiro') {
-        const agrupados = {};
-        pokemon.forEach(p => {
-            const costo = p.costoRetiro || 'Sin Costo';
-            if (!agrupados[costo]) agrupados[costo] = [];
-            agrupados[costo].push(p);
-        });
-        for (const tipo in agrupados) {
-            const grupo = document.createElement("li");
-            grupo.innerHTML = `<h4>${tipo}</h4><ul></ul>`;
-            const subLista = grupo.querySelector("ul");
-            agrupados[tipo].forEach(p => {
-                const item = document.createElement("li");
-                const btn = document.createElement("button");
-                btn.textContent = p.nombre;
-                btn.addEventListener("click", () => mostrarDetalle(p.id));
-                item.appendChild(btn);
-                subLista.appendChild(item);
-            });
-            listaPokemon.appendChild(grupo);
-        }
-    } else if (filtro === 'ataque') {
-        const agrupados = {};
-        pokemon.forEach(p => {
-            const ataque = p.ataque || 'Sin Ataque';
-            if (!agrupados[ataque]) agrupados[ataque] = [];
-            agrupados[ataque].push(p);
-        });
-        for (const tipo in agrupados) {
-            const grupo = document.createElement("li");
-            grupo.innerHTML = `<h4>${tipo}</h4><ul></ul>`;
-            const subLista = grupo.querySelector("ul");
-            agrupados[tipo].forEach(p => {
-                const item = document.createElement("li");
-                const btn = document.createElement("button");
-                btn.textContent = p.nombre;
-                btn.addEventListener("click", () => mostrarDetalle(p.id));
-                item.appendChild(btn);
-                subLista.appendChild(item);
-            });
-            listaPokemon.appendChild(grupo);
-        }
     } else {
         // Mostrar todos
         pokemon.forEach(p => {
