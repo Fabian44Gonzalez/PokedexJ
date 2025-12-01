@@ -266,11 +266,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // === Eventos de navegación ===
     btnIniciar.addEventListener("click", () => {
-        mostrarMenuLocal(); // ✅ Ahora sí llama a la función
+        // Ocultar pantalla inicial
+        document.getElementById("pantalla-inicial").style.display = "none";
+        // Mostrar menú de Pokémon
+        document.getElementById("menu-pokemon").style.display = "block";
+        // Cargar y renderizar Pokémon
+        cargarYRenderizarPokemon();
     });
 
     btnVolverMenuDetalle.addEventListener("click", () => {
-        mostrarMenuLocal(); // ✅ Usa la nueva función
+        // Ocultar detalle y mostrar menú
+        document.getElementById("detalle-pokemon").style.display = "none";
+        document.getElementById("menu-pokemon").style.display = "block";
     });
     btnVolverInicio.addEventListener("click", () => {
         menuPokemon.style.display = "none";
@@ -291,7 +298,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     btnVolverNuevo.addEventListener("click", () => {
         nuevoPokemon.style.display = "none";
-        mostrarMenuLocal(); // ✅ Usa la nueva función
+        // Mostrar menú
+        document.getElementById("menu-pokemon").style.display = "block";
     });
 
     const limpiarCampos = () => {
