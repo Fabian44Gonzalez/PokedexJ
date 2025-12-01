@@ -261,12 +261,12 @@ button:hover {
 /* 
   Estilos para listas de Pokémon
 */
-ul {
+.lista-pokemon {
     list-style: none;
     padding: 0;
 }
 
-li {
+.lista-pokemon li {
     margin: 10px 0;
     transition: transform 0.2s, background 0.2s;
     padding: 8px;
@@ -275,13 +275,13 @@ li {
     background: var(--color-card);
 }
 
-li:hover {
+.lista-pokemon li:hover {
     transform: translateX(5px);
     background: rgba(76, 175, 80, 0.1); /* Verde por defecto */
 }
 
-.tema-azul-oscuro li:hover,
-.tema-azul-claro li:hover {
+.tema-azul-oscuro .lista-pokemon li:hover,
+.tema-azul-claro .lista-pokemon li:hover {
     background: rgba(33, 150, 243, 0.1); /* Azul */
 }
 

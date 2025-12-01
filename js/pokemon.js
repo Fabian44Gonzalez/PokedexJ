@@ -22,30 +22,179 @@ export function convertirImagenABase64(file) {
 }
 
 /**
- * Renderiza las listas de Pokémon desbloqueados y bloqueados en el menú.
+ * Renderiza las listas de Pokémon según el filtro seleccionado.
  * 
- * @param {HTMLElement} pokemonDesbloqueados - Contenedor <ul> para Pokémon desbloqueados.
- * @param {HTMLElement} pokemonBloqueados - Contenedor <ul> para Pokémon bloqueados.
+ * @param {HTMLElement} listaPokemon - Contenedor <ul> para Pokémon.
+ * @param {string} filtro - Categoría por la que filtrar (tipo, numero, hp, etc.).
  */
-export function renderizarPokemones(pokemonDesbloqueados, pokemonBloqueados) {
-    // Limpiar listas actuales
-    pokemonDesbloqueados.innerHTML = "";
-    pokemonBloqueados.innerHTML = "";
+export function renderizarPokemones(listaPokemon, filtro) {
+    // Limpiar lista actual
+    listaPokemon.innerHTML = "";
 
-    // Crear un elemento <li> con botón para cada Pokémon
-    pokemon.forEach(p => {
-        const li = document.createElement("li");
-        const btn = document.createElement("button");
-        btn.textContent = p.desbloqueado
-            ? `${p.nombre} ✅`
-            : `${p.nombre} 🔒`;
-        // Al hacer clic, muestra el detalle del Pokémon (siempre permitido)
-        btn.addEventListener("click", () => mostrarDetalle(p.id));
-        li.appendChild(btn);
-        // Añadir a la lista correspondiente
-        if (p.desbloqueado) pokemonDesbloqueados.appendChild(li);
-        else pokemonBloqueados.appendChild(li);
-    });
+    // Agrupar Pokémon por categoría si es necesario
+    if (filtro === 'tipo') {
+        const agrupados = {};
+        pokemon.forEach(p => {
+            const tipo = p.tipo || 'Sin Tipo';
+            if (!agrupados[tipo]) agrupados[tipo] = [];
+            agrupados[tipo].push(p);
+        });
+        for (const tipo in agrupados) {
+            const grupo = document.createElement("li");
+            grupo.innerHTML = `<h4>${tipo}</h4><ul></ul>`;
+            const subLista = grupo.querySelector("ul");
+            agrupados[tipo].forEach(p => {
+                const item = document.createElement("li");
+                const btn = document.createElement("button");
+                btn.textContent = p.nombre;
+                btn.addEventListener("click", () => mostrarDetalle(p.id));
+                item.appendChild(btn);
+                subLista.appendChild(item);
+            });
+            listaPokemon.appendChild(grupo);
+        }
+    } else if (filtro === 'numero') {
+        // Ordenar por número de carta
+        const ordenados = [...pokemon].sort((a, b) => {
+            const numA = parseInt(a.numeroCarta.split('/')[0]) || 0;
+            const numB = parseInt(b.numeroCarta.split('/')[0]) || 0;
+            return numA - numB;
+        });
+        ordenados.forEach(p => {
+            const item = document.createElement("li");
+            const btn = document.createElement("button");
+            btn.textContent = `${p.nombre} (${p.numeroCarta})`;
+            btn.addEventListener("click", () => mostrarDetalle(p.id));
+            item.appendChild(btn);
+            listaPokemon.appendChild(item);
+        });
+    } else if (filtro === 'hp') {
+        // Ordenar por HP
+        const ordenados = [...pokemon].sort((a, b) => (a.hp || 0) - (b.hp || 0));
+        ordenados.forEach(p => {
+            const item = document.createElement("li");
+            const btn = document.createElement("button");
+            btn.textContent = `${p.nombre} (HP: ${p.hp})`;
+            btn.addEventListener("click", () => mostrarDetalle(p.id));
+            item.appendChild(btn);
+            listaPokemon.appendChild(item);
+        });
+    } else if (filtro === 'tipoCarta') {
+        const agrupados = {};
+        pokemon.forEach(p => {
+            const tipoCarta = p.tipoCarta || 'Sin Tipo';
+            if (!agrupados[tipoCarta]) agrupados[tipoCarta] = [];
+            agrupados[tipoCarta].push(p);
+        });
+        for (const tipo in agrupados) {
+            const grupo = document.createElement("li");
+            grupo.innerHTML = `<h4>${tipo}</h4><ul></ul>`;
+            const subLista = grupo.querySelector("ul");
+            agrupados[tipo].forEach(p => {
+                const item = document.createElement("li");
+                const btn = document.createElement("button");
+                btn.textContent = p.nombre;
+                btn.addEventListener("click", () => mostrarDetalle(p.id));
+                item.appendChild(btn);
+                subLista.appendChild(item);
+            });
+            listaPokemon.appendChild(grupo);
+        }
+    } else if (filtro === 'debilidad') {
+        const agrupados = {};
+        pokemon.forEach(p => {
+            const debilidad = p.debilidad || 'Sin Debilidad';
+            if (!agrupados[debilidad]) agrupados[debilidad] = [];
+            agrupados[debilidad].push(p);
+        });
+        for (const tipo in agrupados) {
+            const grupo = document.createElement("li");
+            grupo.innerHTML = `<h4>${tipo}</h4><ul></ul>`;
+            const subLista = grupo.querySelector("ul");
+            agrupados[tipo].forEach(p => {
+                const item = document.createElement("li");
+                const btn = document.createElement("button");
+                btn.textContent = p.nombre;
+                btn.addEventListener("click", () => mostrarDetalle(p.id));
+                item.appendChild(btn);
+                subLista.appendChild(item);
+            });
+            listaPokemon.appendChild(grupo);
+        }
+    } else if (filtro === 'resistencia') {
+        const agrupados = {};
+        pokemon.forEach(p => {
+            const resistencia = p.resistencia || 'Sin Resistencia';
+            if (!agrupados[resistencia]) agrupados[resistencia] = [];
+            agrupados[resistencia].push(p);
+        });
+        for (const tipo in agrupados) {
+            const grupo = document.createElement("li");
+            grupo.innerHTML = `<h4>${tipo}</h4><ul></ul>`;
+            const subLista = grupo.querySelector("ul");
+            agrupados[tipo].forEach(p => {
+                const item = document.createElement("li");
+                const btn = document.createElement("button");
+                btn.textContent = p.nombre;
+                btn.addEventListener("click", () => mostrarDetalle(p.id));
+                item.appendChild(btn);
+                subLista.appendChild(item);
+            });
+            listaPokemon.appendChild(grupo);
+        }
+    } else if (filtro === 'costoRetiro') {
+        const agrupados = {};
+        pokemon.forEach(p => {
+            const costo = p.costoRetiro || 'Sin Costo';
+            if (!agrupados[costo]) agrupados[costo] = [];
+            agrupados[costo].push(p);
+        });
+        for (const tipo in agrupados) {
+            const grupo = document.createElement("li");
+            grupo.innerHTML = `<h4>${tipo}</h4><ul></ul>`;
+            const subLista = grupo.querySelector("ul");
+            agrupados[tipo].forEach(p => {
+                const item = document.createElement("li");
+                const btn = document.createElement("button");
+                btn.textContent = p.nombre;
+                btn.addEventListener("click", () => mostrarDetalle(p.id));
+                item.appendChild(btn);
+                subLista.appendChild(item);
+            });
+            listaPokemon.appendChild(grupo);
+        }
+    } else if (filtro === 'ataque') {
+        const agrupados = {};
+        pokemon.forEach(p => {
+            const ataque = p.ataque || 'Sin Ataque';
+            if (!agrupados[ataque]) agrupados[ataque] = [];
+            agrupados[ataque].push(p);
+        });
+        for (const tipo in agrupados) {
+            const grupo = document.createElement("li");
+            grupo.innerHTML = `<h4>${tipo}</h4><ul></ul>`;
+            const subLista = grupo.querySelector("ul");
+            agrupados[tipo].forEach(p => {
+                const item = document.createElement("li");
+                const btn = document.createElement("button");
+                btn.textContent = p.nombre;
+                btn.addEventListener("click", () => mostrarDetalle(p.id));
+                item.appendChild(btn);
+                subLista.appendChild(item);
+            });
+            listaPokemon.appendChild(grupo);
+        }
+    } else {
+        // Mostrar todos
+        pokemon.forEach(p => {
+            const item = document.createElement("li");
+            const btn = document.createElement("button");
+            btn.textContent = p.nombre;
+            btn.addEventListener("click", () => mostrarDetalle(p.id));
+            item.appendChild(btn);
+            listaPokemon.appendChild(item);
+        });
+    }
 }
 
 /**
@@ -81,59 +230,16 @@ export function mostrarDetalle(id) {
   // Ocultar control de cambio de imagen (solo visible en edición)
   document.getElementById("label-cambiar-imagen").style.display = "none";
 
-  // Mostrar solo campos que tengan valor
-  const container = document.querySelector("#detalle-pokemon .info-pokemon");
-
-  // Limpiar campos visibles (excepto imagen y botones)
-  const camposVisibles = container.querySelectorAll("p:not(#detalle-imagen)");
-  camposVisibles.forEach(el => el.remove());
-
-  // Crear y mostrar solo campos con valor
-  if (p.nombre) {
-    const nombre = document.createElement("p");
-    nombre.innerHTML = `<strong>Nombre:</strong> <span>${p.nombre}</span>`;
-    container.insertBefore(nombre, document.getElementById("btn-guardar-pokemon"));
-  }
-  if (p.tipo) {
-    const tipo = document.createElement("p");
-    tipo.innerHTML = `<strong>Tipo:</strong> <span>${p.tipo}</span>`;
-    container.insertBefore(tipo, document.getElementById("btn-guardar-pokemon"));
-  }
-  if (p.hp) {
-    const hp = document.createElement("p");
-    hp.innerHTML = `<strong>HP:</strong> <span>${p.hp}</span>`;
-    container.insertBefore(hp, document.getElementById("btn-guardar-pokemon"));
-  }
-  if (p.tipoCarta) {
-    const tipoCarta = document.createElement("p");
-    tipoCarta.innerHTML = `<strong>Tipo de Carta:</strong> <span>${p.tipoCarta}</span>`;
-    container.insertBefore(tipoCarta, document.getElementById("btn-guardar-pokemon"));
-  }
-  if (p.debilidad) {
-    const debilidad = document.createElement("p");
-    debilidad.innerHTML = `<strong>Debilidad:</strong> <span>${p.debilidad}</span>`;
-    container.insertBefore(debilidad, document.getElementById("btn-guardar-pokemon"));
-  }
-  if (p.resistencia) {
-    const resistencia = document.createElement("p");
-    resistencia.innerHTML = `<strong>Resistencia:</strong> <span>${p.resistencia}</span>`;
-    container.insertBefore(resistencia, document.getElementById("btn-guardar-pokemon"));
-  }
-  if (p.costoRetiro) {
-    const costoRetiro = document.createElement("p");
-    costoRetiro.innerHTML = `<strong>Costo de Retiro:</strong> <span>${p.costoRetiro}</span>`;
-    container.insertBefore(costoRetiro, document.getElementById("btn-guardar-pokemon"));
-  }
-  if (p.ataque) {
-    const ataque = document.createElement("p");
-    ataque.innerHTML = `<strong>Ataque:</strong> <span>${p.ataque}</span>`;
-    container.insertBefore(ataque, document.getElementById("btn-guardar-pokemon"));
-  }
-  if (p.numeroCarta) {
-    const numeroCarta = document.createElement("p");
-    numeroCarta.innerHTML = `<strong>Número de Carta:</strong> <span>${p.numeroCarta}</span>`;
-    container.insertBefore(numeroCarta, document.getElementById("btn-guardar-pokemon"));
-  }
+  // Mostrar todos los campos
+  document.getElementById("detalle-nombre").textContent = p.nombre;
+  document.getElementById("detalle-tipo").textContent = p.tipo;
+  document.getElementById("detalle-hp").textContent = p.hp;
+  document.getElementById("detalle-tipo-carta").textContent = p.tipoCarta;
+  document.getElementById("detalle-debilidad").textContent = p.debilidad;
+  document.getElementById("detalle-resistencia").textContent = p.resistencia;
+  document.getElementById("detalle-costo-retiro").textContent = p.costoRetiro;
+  document.getElementById("detalle-ataque").textContent = p.ataque;
+  document.getElementById("detalle-numero-carta").textContent = p.numeroCarta;
 
   // Ocultar botón "Editar" por defecto y mostrarlo solo si autenticado (ahora no es necesario)
   document.getElementById("btn-editar-pokemon").style.display = "inline-block";

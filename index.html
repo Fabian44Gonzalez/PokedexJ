@@ -36,7 +36,7 @@
             </div>
         </section>
 
-        <!-- Menú principal de Pokémon: muestra Pokémon desbloqueados y bloqueados -->
+        <!-- Menú principal de Pokémon: muestra Pokémon filtrados -->
         <section id="menu-pokemon" class="pantalla" style="display: none;">
             <div class="controles-menu">
                 <button id="btn-volver-inicio" class="btn-secundario">← Volver</button>
@@ -52,11 +52,17 @@
 
             <!-- Menú desplegable para filtrar Pokémon -->
             <div class="form-group" style="margin: 15px 0;">
-                <label for="filtro-pokemon">Filtrar:</label>
+                <label for="filtro-pokemon">Filtrar por:</label>
                 <select id="filtro-pokemon" class="form-input" style="max-width: 300px; margin: 6px auto;">
-                    <option value="todos">Todos los Pokémon</option>
-                    <option value="desbloqueados">Solo desbloqueados</option>
-                    <option value="bloqueados">Solo bloqueados</option>
+                    <option value="todos">Mostrar Todos</option>
+                    <option value="tipo">Por Tipo</option>
+                    <option value="numero">Por Número de Carta</option>
+                    <option value="hp">Por HP</option>
+                    <option value="tipoCarta">Por Tipo de Carta</option>
+                    <option value="debilidad">Por Debilidad</option>
+                    <option value="resistencia">Por Resistencia</option>
+                    <option value="costoRetiro">Por Costo de Retiro</option>
+                    <option value="ataque">Por Ataque</option>
                 </select>
             </div>
 
@@ -66,13 +72,9 @@
             </div>
 
             <!-- Contenedores de listas de Pokémon (se ocultarán/mostrarán según el filtro) -->
-            <div id="seccion-desbloqueados">
-                <h3>Pokémon Desbloqueados</h3>
-                <ul id="pokemon-desbloqueados" class="lista-desbloqueados"></ul>
-            </div>
-            <div id="seccion-bloqueados">
-                <h3>Pokémon Bloqueados</h3>
-                <ul id="pokemon-bloqueados" class="lista-bloqueados"></ul>
+            <div id="seccion-pokemon">
+                <h3 id="titulo-seccion">Pokémon</h3>
+                <ul id="lista-pokemon" class="lista-pokemon"></ul>
             </div>
         </section>
 

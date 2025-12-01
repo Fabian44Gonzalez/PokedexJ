@@ -11,23 +11,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // === 🔑 NUEVO: Lógica del filtro de Pokémon ===
     const selectFiltro = document.getElementById("filtro-pokemon");
-    const seccionDesbloqueados = document.getElementById("seccion-desbloqueados");
-    const seccionBloqueados = document.getElementById("seccion-bloqueados");
+    const listaPokemon = document.getElementById("lista-pokemon");
     const cargandoPokemon = document.getElementById("cargando-pokemon");
 
     // Aplicar filtro al cambiar la selección
     selectFiltro.addEventListener("change", () => {
-        const valor = selectFiltro.value;
-        if (valor === "todos") {
-            seccionDesbloqueados.style.display = "block";
-            seccionBloqueados.style.display = "block";
-        } else if (valor === "desbloqueados") {
-            seccionDesbloqueados.style.display = "block";
-            seccionBloqueados.style.display = "none";
-        } else if (valor === "bloqueados") {
-            seccionDesbloqueados.style.display = "none";
-            seccionBloqueados.style.display = "block";
-        }
+        renderizarPokemones(listaPokemon, selectFiltro.value);
     });
 
     // === 🔑 NUEVO: Función para cargar y renderizar Pokémon con caché ===
@@ -92,8 +81,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         // Mostrar estado de carga y ocultar listas
         cargandoPokemon.style.display = "block";
-        seccionDesbloqueados.style.display = "none";
-        seccionBloqueados.style.display = "none";
+        listaPokemon.innerHTML = ""; // Limpiar lista
 
         // Mostrar el menú
         document.getElementById("menu-pokemon").style.display = "block";
@@ -104,18 +92,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Función para renderizar Pokémon Y aplicar el filtro actual
     const renderizarConFiltro = () => {
-        renderizarPokemones(pokemonDesbloqueados, pokemonBloqueados);
-        const valor = selectFiltro.value;
-        if (valor === "todos") {
-            seccionDesbloqueados.style.display = "block";
-            seccionBloqueados.style.display = "block";
-        } else if (valor === "desbloqueados") {
-            seccionDesbloqueados.style.display = "block";
-            seccionBloqueados.style.display = "none";
-        } else if (valor === "bloqueados") {
-            seccionDesbloqueados.style.display = "none";
-            seccionBloqueados.style.display = "block";
-        }
+        renderizarPokemones(listaPokemon, selectFiltro.value);
         // Ocultar mensaje de carga
         cargandoPokemon.style.display = "none";
     };
