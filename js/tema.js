@@ -15,7 +15,7 @@ export function initTemaYNavegacion() {
   const btnTemaMenu = document.getElementById("btn-cambiar-tema-menu");
   const btnTemaDetalle = document.getElementById("btn-cambiar-tema-detalle");
   const btnTemaNuevo = document.getElementById("btn-cambiar-tema-nuevo");
-  
+
   // Array con los nombres de las clases de tema
   const temas = ['', 'tema-verde-oscuro', 'tema-azul-oscuro', 'tema-azul-claro'];
   let indiceTemaActual = 0; // Índice del tema actual

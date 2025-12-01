@@ -212,34 +212,6 @@ export function editarPokemon(p) {
 }
 
 /**
- * Elimina un Pokémon de la lista y de Firebase.
- * 
- * @param {Object} p - Objeto del Pokémon a eliminar.
- */
-export function eliminarPokemon(p) {
-  if (!p) return;
-
-  // Confirmar eliminación
-  if (confirm(`¿Estás seguro de que quieres eliminar a "${p.nombre}"? Esta acción no se puede deshacer.`)) {
-    const indice = pokemon.findIndex(item => item.id === p.id);
-    if (indice !== -1) {
-      pokemon.splice(indice, 1);
-    }
-
-    // Eliminar de Firebase
-    const database = firebase.database();
-    database.ref("pokemon/" + p.id).remove();
-
-    // Actualizar caché
-    localStorage.setItem("pokemon_cache", JSON.stringify(pokemon));
-
-    // Volver al menú principal
-    document.getElementById("detalle-pokemon").style.display = "none";
-    document.getElementById("menu-pokemon").style.display = "block";
-  }
-}
-
-/**
  * Vuelve a mostrar el detalle del Pokémon en modo visualización (después de guardar o cancelar).
  * 
  * @param {string|number} id - ID del Pokémon a mostrar.

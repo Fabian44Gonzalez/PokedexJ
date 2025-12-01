@@ -58,7 +58,7 @@
   {
     "id": 5,
     "nombre": "Jigglypuff",
-    "tipo": "🎵 Normal",
+    "tipo": "Normal",
     "hp": 70,
     "tipoCarta": "Pokémon Básico",
     "debilidad": "🪨 Lucha ×2",
@@ -100,7 +100,7 @@
   {
     "id": 8,
     "nombre": "Snorlax",
-    "tipo": "🍖 Normal",
+    "tipo": "Normal",
     "hp": 150,
     "tipoCarta": "Pokémon Básico",
     "debilidad": "🪨 Lucha ×2",
@@ -114,7 +114,7 @@
   {
     "id": 9,
     "nombre": "Eevee",
-    "tipo": "🐾 Normal",
+    "tipo": "Normal",
     "hp": 50,
     "tipoCarta": "Pokémon Básico",
     "debilidad": "🪨 Lucha ×2",

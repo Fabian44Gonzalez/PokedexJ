@@ -155,14 +155,15 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
 
             await database.ref("pokemon/" + nuevoId).set(nuevoPokemonObj);
-            pokemon.push(nuevoPokemonObj);
+            pokemon.push(nuevoPokemonObj); // ✅ Añadir a la lista local
+
+            // ✅ Actualizar caché y renderizar
+            localStorage.setItem("pokemon_cache", JSON.stringify(pokemon));
+            renderizarConFiltro(); // ✅ Solo renderizar, sin recargar desde Firebase
 
             nuevoPokemon.style.display = "none";
             mostrarDetalle(nuevoId);
             limpiarCampos();
-            // Actualizar caché y renderizar
-            localStorage.setItem("pokemon_cache", JSON.stringify(pokemon));
-            renderizarConFiltro(); // ✅ Solo renderizar, sin recargar desde Firebase
         } catch (error) {
             console.error("Error al guardar el nuevo Pokémon:", error);
             alert("Ocurrió un error al guardar el Pokémon. Inténtalo de nuevo.");
@@ -242,20 +243,21 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // 🔑 Botón de eliminar Pokémon (sin autenticación)
     const btnEliminar = document.getElementById("btn-eliminar-pokemon");
-    btnEliminar.addEventListener("click", () => {
+    btnEliminar.addEventListener("click", async () => {
         if (!pokemonActual) return;
 
         if (confirm(`¿Estás seguro de que quieres eliminar a "${pokemonActual.nombre}"? Esta acción no se puede deshacer.`)) {
             const indice = pokemon.findIndex(p => p.id === pokemonActual.id);
             if (indice !== -1) {
-                pokemon.splice(indice, 1);
+                pokemon.splice(indice, 1); // ✅ Eliminar de la lista local
             }
 
             // Eliminar de Firebase
-            database.ref("pokemon/" + pokemonActual.id).remove();
+            await database.ref("pokemon/" + pokemonActual.id).remove();
 
-            // Actualizar caché
+            // ✅ Actualizar caché y renderizar
             localStorage.setItem("pokemon_cache", JSON.stringify(pokemon));
+            renderizarConFiltro(); // ✅ Volver a renderizar la lista
 
             // Volver al menú principal
             document.getElementById("detalle-pokemon").style.display = "none";
