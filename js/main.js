@@ -104,9 +104,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const pokemonDesbloqueados = document.getElementById("pokemon-desbloqueados");
     const pokemonBloqueados = document.getElementById("pokemon-bloqueados");
     const inputEntrenador1 = document.getElementById("entrenador1");
-    const btnIniciar = document.getElementById("btn-iniciar");
+    const btnIniciar = document.getElementById("btn-iniciar"); // ✅ Botón "Ver Pokédex"
     const btnVolverMenuDetalle = document.getElementById("btn-volver-menu");
-    const btnVolverInicio = document.getElementById("btn-volver-inicio");
+    const btnVolverInicio = document.getElementById("btn-volver-inicio"); // ✅ Botón "Volver" en menú
     const nuevoPokemon = document.getElementById("nuevo-pokemon");
     const btnVolverNuevo = document.getElementById("btn-volver-nuevo");
     const btnGuardarNuevo = document.getElementById("btn-guardar-nuevo");
@@ -266,20 +266,20 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // === Eventos de navegación ===
     btnIniciar.addEventListener("click", () => {
-        // Ocultar pantalla inicial
-        document.getElementById("pantalla-inicial").style.display = "none";
-        // Mostrar menú de Pokémon
-        document.getElementById("menu-pokemon").style.display = "block";
-        // Cargar y renderizar Pokémon
+        // ✅ Ocultar pantalla inicial y mostrar menú
+        pantallaInicial.style.display = "none";
+        menuPokemon.style.display = "block";
+        // Cargar Pokémon
         cargarYRenderizarPokemon();
     });
 
     btnVolverMenuDetalle.addEventListener("click", () => {
         // Ocultar detalle y mostrar menú
-        document.getElementById("detalle-pokemon").style.display = "none";
-        document.getElementById("menu-pokemon").style.display = "block";
+        detallePokemon.style.display = "none";
+        menuPokemon.style.display = "block";
     });
     btnVolverInicio.addEventListener("click", () => {
+        // ✅ Ocultar menú y mostrar pantalla inicial
         menuPokemon.style.display = "none";
         pantallaInicial.style.display = "block";
     });
@@ -299,7 +299,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     btnVolverNuevo.addEventListener("click", () => {
         nuevoPokemon.style.display = "none";
         // Mostrar menú
-        document.getElementById("menu-pokemon").style.display = "block";
+        menuPokemon.style.display = "block";
     });
 
     const limpiarCampos = () => {

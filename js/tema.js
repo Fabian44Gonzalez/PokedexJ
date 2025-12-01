@@ -33,26 +33,10 @@ export function initTemaYNavegacion() {
   };
 
   // Añadir evento de cambio de tema a cada botón (si existe)
-  if (btnTemaInicio) {
-    btnTemaInicio.addEventListener("click", cambiarTema);
-  } else {
-    console.warn("Botón de tema en pantalla inicial no encontrado.");
-  }
-  if (btnTemaMenu) {
-    btnTemaMenu.addEventListener("click", cambiarTema);
-  } else {
-    console.warn("Botón de tema en menú no encontrado.");
-  }
-  if (btnTemaDetalle) {
-    btnTemaDetalle.addEventListener("click", cambiarTema);
-  } else {
-    console.warn("Botón de tema en detalle no encontrado.");
-  }
-  if (btnTemaNuevo) {
-    btnTemaNuevo.addEventListener("click", cambiarTema);
-  } else {
-    console.warn("Botón de tema en nueva carta no encontrado.");
-  }
+  if (btnTemaInicio) btnTemaInicio.addEventListener("click", cambiarTema);
+  if (btnTemaMenu) btnTemaMenu.addEventListener("click", cambiarTema);
+  if (btnTemaDetalle) btnTemaDetalle.addEventListener("click", cambiarTema);
+  if (btnTemaNuevo) btnTemaNuevo.addEventListener("click", cambiarTema);
 
   /**
    * Muestra la pantalla del menú de Pokémon y oculta todas las demás.
