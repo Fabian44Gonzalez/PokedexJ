@@ -101,8 +101,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     const pantallaInicial = document.getElementById("pantalla-inicial");
     const menuPokemon = document.getElementById("menu-pokemon");
     const detallePokemon = document.getElementById("detalle-pokemon");
-    const pokemonDesbloqueados = document.getElementById("pokemon-desbloqueados");
-    const pokemonBloqueados = document.getElementById("pokemon-bloqueados");
     const inputEntrenador1 = document.getElementById("entrenador1");
     const btnIniciar = document.getElementById("btn-iniciar");
     const btnVolverMenuDetalle = document.getElementById("btn-volver-menu");
@@ -162,7 +160,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             limpiarCampos();
             // Actualizar caché y renderizar
             localStorage.setItem("pokemon_cache", JSON.stringify(pokemon));
-            cargarYRenderizarPokemon(); // Recargar para reflejar cambios
+            renderizarConFiltro(); // ✅ Solo renderizar, sin recargar desde Firebase
         } catch (error) {
             console.error("Error al guardar el nuevo Pokémon:", error);
             alert("Ocurrió un error al guardar el Pokémon. Inténtalo de nuevo.");
@@ -217,11 +215,19 @@ document.addEventListener("DOMContentLoaded", async () => {
                 pokemonActual.imagen = base64;
             }
 
+            // ✅ Guardar en Firebase
             await database.ref("pokemon/" + pokemonActual.id).set(pokemonActual);
+
+            // ✅ Actualizar caché local
+            const indice = pokemon.findIndex(p => p.id === pokemonActual.id);
+            if (indice !== -1) {
+                pokemon[indice] = pokemonActual;
+            }
+
             volverAMostrarDetalle(pokemonActual.id);
-            // Actualizar caché y renderizar
+            // ✅ Actualizar caché y renderizar
             localStorage.setItem("pokemon_cache", JSON.stringify(pokemon));
-            cargarYRenderizarPokemon(); // Recargar para reflejar cambios
+            renderizarConFiltro(); // ✅ Solo renderizar, sin recargar desde Firebase
         } catch (error) {
             console.error("Error al guardar los cambios:", error);
             alert("Ocurrió un error al guardar los cambios. Inténtalo de nuevo.");
