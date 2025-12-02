@@ -104,9 +104,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const pokemonDesbloqueados = document.getElementById("pokemon-desbloqueados");
     const pokemonBloqueados = document.getElementById("pokemon-bloqueados");
     const inputEntrenador1 = document.getElementById("entrenador1");
-    const btnIniciar = document.getElementById("btn-iniciar"); // ✅ Botón "Ver Pokédex"
+    const btnIniciar = document.getElementById("btn-iniciar");
     const btnVolverMenuDetalle = document.getElementById("btn-volver-menu");
-    const btnVolverInicio = document.getElementById("btn-volver-inicio"); // ✅ Botón "Volver" en menú
+    const btnVolverInicio = document.getElementById("btn-volver-inicio");
     const nuevoPokemon = document.getElementById("nuevo-pokemon");
     const btnVolverNuevo = document.getElementById("btn-volver-nuevo");
     const btnGuardarNuevo = document.getElementById("btn-guardar-nuevo");
@@ -114,6 +114,34 @@ document.addEventListener("DOMContentLoaded", async () => {
     const inputNuevoTipo = document.getElementById("nuevo-tipo");
     const inputNuevoDesbloqueado = document.getElementById("nuevo-desbloqueado");
     const inputNuevoImagen = document.getElementById("nuevo-imagen");
+
+    // === Validar elementos antes de asignar eventos ===
+    if (!btnIniciar) {
+        console.error("❌ Botón 'Ver Pokédex' (btn-iniciar) no encontrado en el DOM.");
+    } else {
+        btnIniciar.addEventListener("click", () => {
+            // ✅ Ocultar pantalla inicial
+            if (pantallaInicial) {
+                pantallaInicial.style.display = "none";
+            } else {
+                console.error("❌ Elemento 'pantalla-inicial' no encontrado.");
+            }
+
+            // ✅ Mostrar menú de Pokémon
+            if (menuPokemon) {
+                menuPokemon.style.display = "block";
+            } else {
+                console.error("❌ Elemento 'menu-pokemon' no encontrado.");
+            }
+
+            // ✅ Cargar y renderizar Pokémon
+            if (typeof cargarYRenderizarPokemon === 'function') {
+                cargarYRenderizarPokemon();
+            } else {
+                console.error("❌ Función 'cargarYRenderizarPokemon' no definida.");
+            }
+        });
+    }
 
     // 🔑 Botón de guardar nuevo Pokémon (sin autenticación)
     btnGuardarNuevo.addEventListener("click", async () => {
@@ -265,42 +293,52 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     // === Eventos de navegación ===
-    btnIniciar.addEventListener("click", () => {
-        // ✅ Ocultar pantalla inicial y mostrar menú
-        pantallaInicial.style.display = "none";
-        menuPokemon.style.display = "block";
-        // Cargar Pokémon
-        cargarYRenderizarPokemon();
-    });
+    if (!btnVolverMenuDetalle) {
+        console.error("❌ Botón 'btn-volver-menu' no encontrado.");
+    } else {
+        btnVolverMenuDetalle.addEventListener("click", () => {
+            detallePokemon.style.display = "none";
+            menuPokemon.style.display = "block";
+        });
+    }
 
-    btnVolverMenuDetalle.addEventListener("click", () => {
-        // Ocultar detalle y mostrar menú
-        detallePokemon.style.display = "none";
-        menuPokemon.style.display = "block";
-    });
-    btnVolverInicio.addEventListener("click", () => {
-        // ✅ Ocultar menú y mostrar pantalla inicial
-        menuPokemon.style.display = "none";
-        pantallaInicial.style.display = "block";
-    });
+    if (!btnVolverInicio) {
+        console.error("❌ Botón 'btn-volver-inicio' no encontrado.");
+    } else {
+        btnVolverInicio.addEventListener("click", () => {
+            menuPokemon.style.display = "none";
+            pantallaInicial.style.display = "block";
+        });
+    }
 
     const btnAgregarPokemon = document.getElementById("btn-agregar-pokemon");
-    btnAgregarPokemon.addEventListener("click", () => {
-        menuPokemon.style.display = "none";
-        nuevoPokemon.style.display = "block";
-    });
+    if (btnAgregarPokemon) {
+        btnAgregarPokemon.addEventListener("click", () => {
+            menuPokemon.style.display = "none";
+            nuevoPokemon.style.display = "block";
+        });
+    } else {
+        console.error("❌ Botón 'btn-agregar-pokemon' no encontrado.");
+    }
 
     const btnEditarPokemon = document.getElementById("btn-editar-pokemon");
-    btnEditarPokemon.addEventListener("click", () => {
-        if (!pokemonActual) return;
-        editarPokemon(pokemonActual);
-    });
+    if (btnEditarPokemon) {
+        btnEditarPokemon.addEventListener("click", () => {
+            if (!pokemonActual) return;
+            editarPokemon(pokemonActual);
+        });
+    } else {
+        console.error("❌ Botón 'btn-editar-pokemon' no encontrado.");
+    }
 
-    btnVolverNuevo.addEventListener("click", () => {
-        nuevoPokemon.style.display = "none";
-        // Mostrar menú
-        menuPokemon.style.display = "block";
-    });
+    if (!btnVolverNuevo) {
+        console.error("❌ Botón 'btn-volver-nuevo' no encontrado.");
+    } else {
+        btnVolverNuevo.addEventListener("click", () => {
+            nuevoPokemon.style.display = "none";
+            menuPokemon.style.display = "block";
+        });
+    }
 
     const limpiarCampos = () => {
         inputNuevoNombre.value = "";
