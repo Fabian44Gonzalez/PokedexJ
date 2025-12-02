@@ -115,32 +115,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     const inputNuevoDesbloqueado = document.getElementById("nuevo-desbloqueado");
     const inputNuevoImagen = document.getElementById("nuevo-imagen");
 
-    // === Validar elementos antes de asignar eventos ===
-    if (!btnIniciar) {
-        console.error("❌ Botón 'Ver Pokédex' (btn-iniciar) no encontrado en el DOM.");
-    } else {
+    // === Evento del botón "Ver Pokédex" ===
+    if (btnIniciar) {
         btnIniciar.addEventListener("click", () => {
             // ✅ Ocultar pantalla inicial
-            if (pantallaInicial) {
-                pantallaInicial.style.display = "none";
-            } else {
-                console.error("❌ Elemento 'pantalla-inicial' no encontrado.");
-            }
-
+            pantallaInicial.style.display = "none";
             // ✅ Mostrar menú de Pokémon
-            if (menuPokemon) {
-                menuPokemon.style.display = "block";
-            } else {
-                console.error("❌ Elemento 'menu-pokemon' no encontrado.");
-            }
-
+            menuPokemon.style.display = "block";
             // ✅ Cargar y renderizar Pokémon
-            if (typeof cargarYRenderizarPokemon === 'function') {
-                cargarYRenderizarPokemon();
-            } else {
-                console.error("❌ Función 'cargarYRenderizarPokemon' no definida.");
-            }
+            cargarYRenderizarPokemon();
         });
+    } else {
+        console.error("❌ Botón 'btn-iniciar' no encontrado en el DOM.");
     }
 
     // 🔑 Botón de guardar nuevo Pokémon (sin autenticación)
@@ -293,52 +279,31 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     // === Eventos de navegación ===
-    if (!btnVolverMenuDetalle) {
-        console.error("❌ Botón 'btn-volver-menu' no encontrado.");
-    } else {
-        btnVolverMenuDetalle.addEventListener("click", () => {
-            detallePokemon.style.display = "none";
-            menuPokemon.style.display = "block";
-        });
-    }
-
-    if (!btnVolverInicio) {
-        console.error("❌ Botón 'btn-volver-inicio' no encontrado.");
-    } else {
-        btnVolverInicio.addEventListener("click", () => {
-            menuPokemon.style.display = "none";
-            pantallaInicial.style.display = "block";
-        });
-    }
+    btnVolverMenuDetalle.addEventListener("click", () => {
+        detallePokemon.style.display = "none";
+        menuPokemon.style.display = "block";
+    });
+    btnVolverInicio.addEventListener("click", () => {
+        menuPokemon.style.display = "none";
+        pantallaInicial.style.display = "block";
+    });
 
     const btnAgregarPokemon = document.getElementById("btn-agregar-pokemon");
-    if (btnAgregarPokemon) {
-        btnAgregarPokemon.addEventListener("click", () => {
-            menuPokemon.style.display = "none";
-            nuevoPokemon.style.display = "block";
-        });
-    } else {
-        console.error("❌ Botón 'btn-agregar-pokemon' no encontrado.");
-    }
+    btnAgregarPokemon.addEventListener("click", () => {
+        menuPokemon.style.display = "none";
+        nuevoPokemon.style.display = "block";
+    });
 
     const btnEditarPokemon = document.getElementById("btn-editar-pokemon");
-    if (btnEditarPokemon) {
-        btnEditarPokemon.addEventListener("click", () => {
-            if (!pokemonActual) return;
-            editarPokemon(pokemonActual);
-        });
-    } else {
-        console.error("❌ Botón 'btn-editar-pokemon' no encontrado.");
-    }
+    btnEditarPokemon.addEventListener("click", () => {
+        if (!pokemonActual) return;
+        editarPokemon(pokemonActual);
+    });
 
-    if (!btnVolverNuevo) {
-        console.error("❌ Botón 'btn-volver-nuevo' no encontrado.");
-    } else {
-        btnVolverNuevo.addEventListener("click", () => {
-            nuevoPokemon.style.display = "none";
-            menuPokemon.style.display = "block";
-        });
-    }
+    btnVolverNuevo.addEventListener("click", () => {
+        nuevoPokemon.style.display = "none";
+        menuPokemon.style.display = "block";
+    });
 
     const limpiarCampos = () => {
         inputNuevoNombre.value = "";
