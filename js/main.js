@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const pokemonDesbloqueados = document.getElementById("pokemon-desbloqueados");
     const pokemonBloqueados = document.getElementById("pokemon-bloqueados");
     const inputEntrenador1 = document.getElementById("entrenador1");
-    const btnIniciar = document.getElementById("btn-iniciar");
+    const btnIniciar = document.getElementById("btn-iniciar"); // ✅ ID correcto
     const btnVolverMenuDetalle = document.getElementById("btn-volver-menu");
     const btnVolverInicio = document.getElementById("btn-volver-inicio");
     const nuevoPokemon = document.getElementById("nuevo-pokemon");
@@ -119,9 +119,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (btnIniciar) {
         btnIniciar.addEventListener("click", () => {
             // ✅ Ocultar pantalla inicial
-            document.getElementById("pantalla-inicial").style.display = "none";
+            pantallaInicial.style.display = "none";
             // ✅ Mostrar menú de Pokémon
-            document.getElementById("menu-pokemon").style.display = "block";
+            menuPokemon.style.display = "block";
             // ✅ Cargar y renderizar Pokémon
             cargarYRenderizarPokemon();
         });
@@ -256,7 +256,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // 🔑 Botón de eliminar Pokémon (sin autenticación)
     const btnEliminar = document.getElementById("btn-eliminar-pokemon");
-    btnEliminar.addEventListener("click", async () => {
+    btnEliminar.addEventListener("click", () => {
         if (!pokemonActual) return;
 
         if (confirm(`¿Estás seguro de que quieres eliminar a "${pokemonActual.nombre}"? Esta acción no se puede deshacer.`)) {
@@ -264,10 +264,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             if (indice !== -1) {
                 pokemon.splice(indice, 1); // ✅ Eliminar de la lista local
             }
-
-            // Eliminar de Firebase
-            await database.ref("pokemon/" + pokemonActual.id).remove();
-
+            
             // ✅ Actualizar caché y renderizar
             localStorage.setItem("pokemon_cache", JSON.stringify(pokemon));
             renderizarConFiltro(); // ✅ Volver a renderizar la lista
