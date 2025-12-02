@@ -119,9 +119,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (btnIniciar) {
         btnIniciar.addEventListener("click", () => {
             // ✅ Ocultar pantalla inicial
-            pantallaInicial.style.display = "none";
+            document.getElementById("pantalla-inicial").style.display = "none";
             // ✅ Mostrar menú de Pokémon
-            menuPokemon.style.display = "block";
+            document.getElementById("menu-pokemon").style.display = "block";
             // ✅ Cargar y renderizar Pokémon
             cargarYRenderizarPokemon();
         });
@@ -256,7 +256,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // 🔑 Botón de eliminar Pokémon (sin autenticación)
     const btnEliminar = document.getElementById("btn-eliminar-pokemon");
-    btnEliminar.addEventListener("click", async () => {
+    btnEliminar.addEventListener("click", () => {
         if (!pokemonActual) return;
 
         if (confirm(`¿Estás seguro de que quieres eliminar a "${pokemonActual.nombre}"? Esta acción no se puede deshacer.`)) {
