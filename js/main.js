@@ -256,7 +256,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // 🔑 Botón de eliminar Pokémon (sin autenticación)
     const btnEliminar = document.getElementById("btn-eliminar-pokemon");
-    btnEliminar.addEventListener("click", () => {
+    btnEliminar.addEventListener("click", async () => {
         if (!pokemonActual) return;
 
         if (confirm(`¿Estás seguro de que quieres eliminar a "${pokemonActual.nombre}"? Esta acción no se puede deshacer.`)) {
