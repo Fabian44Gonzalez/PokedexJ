@@ -1,13 +1,13 @@
 import { initFirebase } from "./firebase.js";
 import { initTemaYNavegacion } from "./tema.js"; // Importamos la función
-import { pokemon, renderizarPokemones, mostrarDetalle, editarPokemon, volverAMostrarDetalle, pokemonActual, setPokemonActual, convertirImagenABase64, eliminarPokemon } from "./pokemon.js";
+import { pokemon, renderizarPokemones, mostrarDetalle, editarPokemon, volverAMostrarDetalle, pokemonActual, convertirImagenABase64 } from "./pokemon.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
     // Inicializar Firebase
     const database = initFirebase();
 
     // 🔑 Inicializar tema y navegación
-    const { mostrarMenu } = initTemaYNavegacion(); // Guardamos la función mostrarMenu
+    const { mostrarMenu } = initTemaYNavegacion(); // ✅ Ahora sí se usa mostrarMenu
 
     // === 🔑 NUEVO: Lógica del filtro de Pokémon ===
     const selectFiltro = document.getElementById("filtro-pokemon");
@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const pokemonDesbloqueados = document.getElementById("pokemon-desbloqueados");
     const pokemonBloqueados = document.getElementById("pokemon-bloqueados");
     const inputEntrenador1 = document.getElementById("entrenador1");
-    const btnIniciar = document.getElementById("btn-iniciar"); // ✅ ID correcto
+    const btnIniciar = document.getElementById("btn-iniciar");
     const btnVolverMenuDetalle = document.getElementById("btn-volver-menu");
     const btnVolverInicio = document.getElementById("btn-volver-inicio");
     const nuevoPokemon = document.getElementById("nuevo-pokemon");
@@ -118,10 +118,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     // === Evento del botón "Ver Pokédex" ===
     if (btnIniciar) {
         btnIniciar.addEventListener("click", () => {
-            // ✅ Ocultar pantalla inicial
-            pantallaInicial.style.display = "none";
-            // ✅ Mostrar menú de Pokémon
-            menuPokemon.style.display = "block";
+            // ✅ Usar la función mostrarMenu del tema
+            mostrarMenu();
             // ✅ Cargar y renderizar Pokémon
             cargarYRenderizarPokemon();
         });
@@ -256,7 +254,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // 🔑 Botón de eliminar Pokémon (sin autenticación)
     const btnEliminar = document.getElementById("btn-eliminar-pokemon");
-    btnEliminar.addEventListener("click", () => {
+    btnEliminar.addEventListener("click", async () => {
         if (!pokemonActual) return;
 
         if (confirm(`¿Estás seguro de que quieres eliminar a "${pokemonActual.nombre}"? Esta acción no se puede deshacer.`)) {
@@ -264,7 +262,10 @@ document.addEventListener("DOMContentLoaded", async () => {
             if (indice !== -1) {
                 pokemon.splice(indice, 1); // ✅ Eliminar de la lista local
             }
-            
+
+            // ✅ Ahora 'await' es válido
+            await database.ref("pokemon/" + pokemonActual.id).remove();
+
             // ✅ Actualizar caché y renderizar
             localStorage.setItem("pokemon_cache", JSON.stringify(pokemon));
             renderizarConFiltro(); // ✅ Volver a renderizar la lista
