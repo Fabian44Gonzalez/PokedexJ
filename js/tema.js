@@ -4,7 +4,7 @@
  * Inicializa la funcionalidad de cambio de tema y navegación entre pantallas.
  * 
  * - Gestiona 4 botones de cambio de tema (uno por pantalla).
- * - Alterna entre 4 temas diferentes (blanco/verde, negro/verde, negro/azul, blanco/azul).
+ * - Alterna entre 4 temas diferentes (blanco/verde, gris/verde, negro/azul, blanco/azul).
  * - Proporciona una función para mostrar el menú principal de Pokémon.
  * 
  * @returns {{ mostrarMenu: Function }} Objeto con la función de navegación.
@@ -22,24 +22,27 @@ export function initTemaYNavegacion() {
   if (!btnTemaDetalle) console.error("❌ Botón 'btn-cambiar-tema-detalle' no encontrado en detalle.");
   if (!btnTemaNuevo) console.error("❌ Botón 'btn-cambiar-tema-nuevo' no encontrado en nueva carta.");
 
-  // Array con los nombres de las clases de tema
+  // Array con los nombres de las clases de tema (ahora incluye el tema por defecto como clase vacía)
   const temas = ['', 'tema-verde-oscuro', 'tema-azul-oscuro', 'tema-azul-claro'];
   let indiceTemaActual = 0; // Índice del tema actual
 
   // Función para cambiar al siguiente tema
   const cambiarTema = () => {
     console.log("Cambiando tema...");
-    console.log("Tema actual antes:", document.body.classList);
+    console.log("Clases actuales:", document.body.classList);
+
     // Remover la clase del tema actual
-    document.body.classList.remove(...temas);
+    document.body.classList.remove(...temas.filter(t => t)); // ⬅️ Filtrar cadenas vacías
+
     // Avanzar al siguiente tema
     indiceTemaActual = (indiceTemaActual + 1) % temas.length;
-    // Añadir la nueva clase de tema
+
+    // Añadir la nueva clase de tema (si no es vacía)
     if (temas[indiceTemaActual]) {
       document.body.classList.add(temas[indiceTemaActual]);
-      console.log("Tema actual después:", document.body.classList);
+      console.log("✅ Tema activado:", temas[indiceTemaActual]);
     } else {
-      console.log("Tema por defecto (sin clase).");
+      console.log("➡️ No se añadió ninguna clase (tema por defecto).");
     }
   };
 

@@ -12,11 +12,11 @@
 }
 
 /* 
-  Tema 2: Negro y Verde
+  Tema 2: Negro/Gris y Verde
 */
 .tema-verde-oscuro {
-    --color-fondo: #1b5e20; 
-    --color-card: #2e7d32;
+    --color-fondo: #1c1c1c; 
+    --color-card: #2c2c2c;
     --color-texto: #e8f5e9;
     --color-borde: #4caf50;
     --color-principal: #81c784;       
@@ -25,11 +25,11 @@
 }
 
 /* 
-  Tema 3: Negro y Azul
+  Tema 3: Negro/Gris y Azul
 */
 .tema-azul-oscuro {
-    --color-fondo: #0d47a1; 
-    --color-card: #1565c0;
+    --color-fondo: #1c1c1c; 
+    --color-card: #2c2c2c;
     --color-texto: #e3f2fd;
     --color-borde: #42a5f5;
     --color-principal: #64b5f6;       
