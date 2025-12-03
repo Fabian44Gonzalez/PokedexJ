@@ -78,37 +78,46 @@
         <!-- Pantalla de detalle de un Pokémon específico -->
         <section id="detalle-pokemon" class="pantalla" style="display: none;">
             <div class="card">
-                <div class="controles-menu">
-                    <button id="btn-volver-menu" class="btn-secundario">← Volver</button>
-                    <div class="grupo-derecha">
-                        <!-- Botón para editar el Pokémon actual -->
-                        <button id="btn-editar-pokemon" class="btn-secundario">🖉</button>
-                        <!-- Cambio de tema en esta pantalla -->
-                        <button id="btn-cambiar-tema-detalle" class="btn-circular" title="Cambiar tema">🌙</button>
+                <!-- Zona 1: Contiene el menú con los botones -->
+                <div class="zona-controles">
+                    <div class="controles-menu">
+                        <button id="btn-volver-menu" class="btn-secundario">← Volver</button>
+                        <div class="grupo-derecha">
+                            <!-- Botón para editar el Pokémon actual -->
+                            <button id="btn-editar-pokemon" class="btn-secundario">🖉</button>
+                            <!-- Cambio de tema en esta pantalla -->
+                            <button id="btn-cambiar-tema-detalle" class="btn-circular" title="Cambiar tema">🌙</button>
+                        </div>
                     </div>
                 </div>
-                <h2 id="detalle-titulo"></h2>
-                <div class="info-pokemon">
-                    <!-- Contenedor para la imagen del Pokémon -->
+
+                <!-- Zona 2: Contiene la imagen del Pokémon -->
+                <div class="zona-imagen">
                     <div id="detalle-imagen" class="contenedor-imagen"></div>
                     <!-- Campo oculto para cambiar imagen (solo visible en modo edición) -->
                     <label id="label-cambiar-imagen" style="display: none;">
                         Cambiar imagen: <input type="file" id="edit-imagen" accept="image/*">
                     </label>
+                </div>
 
-                    <!-- Campos editables -->
-                    <p>Nombre: <span id="detalle-nombre"></span></p>
-                    <p>Tipo: <span id="detalle-tipo"></span></p>
-                    <p>HP: <span id="detalle-hp"></span></p>
-                    <p>Tipo de Carta: <span id="detalle-tipo-carta"></span></p>
-                    <p>Debilidad: <span id="detalle-debilidad"></span></p>
-                    <p>Resistencia: <span id="detalle-resistencia"></span></p>
-                    <p>Costo de Retiro: <span id="detalle-costo-retiro"></span></p>
-                    <p>Ataque: <span id="detalle-ataque"></span></p>
-                    <p>Número de Carta: <span id="detalle-numero-carta"></span></p>
+                <!-- Zona 3: Contiene el resto de información del Pokémon -->
+                <div class="zona-info">
+                    <h2 id="detalle-titulo"></h2>
+                    <div class="info-pokemon">
+                        <!-- Campos editables -->
+                        <p>Nombre: <span id="detalle-nombre"></span></p>
+                        <p>Tipo: <span id="detalle-tipo"></span></p>
+                        <p>HP: <span id="detalle-hp"></span></p>
+                        <p>Tipo de Carta: <span id="detalle-tipo-carta"></span></p>
+                        <p>Debilidad: <span id="detalle-debilidad"></span></p>
+                        <p>Resistencia: <span id="detalle-resistencia"></span></p>
+                        <p>Costo de Retiro: <span id="detalle-costo-retiro"></span></p>
+                        <p>Ataque: <span id="detalle-ataque"></span></p>
+                        <p>Número de Carta: <span id="detalle-numero-carta"></span></p>
 
-                    <!-- Botón de guardar (solo visible al editar) -->
-                    <button id="btn-guardar-pokemon" class="btn-principal" style="display: none;">Guardar</button>
+                        <!-- Botón de guardar (solo visible al editar) -->
+                        <button id="btn-guardar-pokemon" class="btn-principal" style="display: none;">Guardar</button>
+                    </div>
                 </div>
             </div>
         </section>

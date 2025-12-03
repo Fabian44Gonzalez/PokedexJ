@@ -350,6 +350,34 @@ button:hover {
 }
 
 /* 
+  Estilos para las 3 zonas en la pantalla de detalle
+*/
+#detalle-pokemon .card {
+    display: grid;
+    grid-template-areas: 
+        "controles"
+        "imagen"
+        "info";
+    gap: 20px;
+}
+
+.zona-controles {
+    grid-area: controles;
+}
+
+.zona-imagen {
+    grid-area: imagen;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 15px 0;
+}
+
+.zona-info {
+    grid-area: info;
+}
+
+/* 
   Adaptabilidad para dispositivos móviles
 */
 @media (max-width: 600px) {
@@ -370,4 +398,29 @@ button:hover {
         width: auto;
         padding: 12px;
     }
+
+    /* Ajustes para la división en zonas en móviles */
+    #detalle-pokemon .card {
+        grid-template-areas: 
+            "controles"
+            "imagen"
+            "info";
+    }
+}
+
+/* 
+  Estilos para campos de formulario en modo edición
+*/
+#detalle-pokemon .info-pokemon,
+#nuevo-pokemon .card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#detalle-pokemon .info-pokemon p,
+#nuevo-pokemon .form-group {
+    width: 100%;
+    max-width: 320px; /* Igual que los form-input */
+    text-align: center;
 }
