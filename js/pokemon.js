@@ -69,15 +69,28 @@ export function renderizarPokemones(listaPokemon, filtro) {
             listaPokemon.appendChild(item);
         });
     } else if (filtro === 'hp') {
-        // Ordenar por HP
-        const ordenados = [...pokemon].sort((a, b) => (a.hp || 0) - (b.hp || 0));
-        ordenados.forEach(p => {
-            const item = document.createElement("li");
-            const btn = document.createElement("button");
-            btn.textContent = `${p.nombre} (HP: ${p.hp})`;
-            btn.addEventListener("click", () => mostrarDetalle(p.id));
-            item.appendChild(btn);
-            listaPokemon.appendChild(item);
+        // ✅ Agrupar por HP
+        const agrupados = {};
+        pokemon.forEach(p => {
+            const hp = p.hp || 0;
+            if (!agrupados[hp]) agrupados[hp] = [];
+            agrupados[hp].push(p);
+        });
+        // Ordenar por HP ascendente
+        const hpsOrdenados = Object.keys(agrupados).map(Number).sort((a, b) => a - b);
+        hpsOrdenados.forEach(hp => {
+            const grupo = document.createElement("li");
+            grupo.innerHTML = `<h4>HP: ${hp}</h4><ul></ul>`;
+            const subLista = grupo.querySelector("ul");
+            agrupados[hp].forEach(p => {
+                const item = document.createElement("li");
+                const btn = document.createElement("button");
+                btn.textContent = p.nombre;
+                btn.addEventListener("click", () => mostrarDetalle(p.id));
+                item.appendChild(btn);
+                subLista.appendChild(item);
+            });
+            listaPokemon.appendChild(grupo);
         });
     } else if (filtro === 'tipoCarta') {
         const agrupados = {};
@@ -149,8 +162,8 @@ export function mostrarDetalle(id) {
   document.getElementById("menu-pokemon").style.display = "none";
   document.getElementById("detalle-pokemon").style.display = "block";
 
-  // Actualizar título
-  document.getElementById("detalle-titulo").textContent = `Pokémon: ${p.nombre}`;
+  // Actualizar título (solo nombre)
+  document.getElementById("detalle-titulo").textContent = p.nombre;
 
   // Renderizar imagen
   const contenedorImagen = document.getElementById("detalle-imagen");
@@ -192,7 +205,7 @@ export function editarPokemon(p) {
   if (!p) return;
 
   // Reemplazar todos los campos con inputs
-  document.getElementById("detalle-titulo").innerHTML = `Pokémon: <input type="text" id="edit-nombre" class="form-input" value="${p.nombre}" maxlength="50">`;
+  document.getElementById("detalle-titulo").innerHTML = `<input type="text" id="edit-nombre" class="form-input" value="${p.nombre}" maxlength="50">`;
   document.getElementById("detalle-nombre").innerHTML = `<input type="text" id="edit-nombre" class="form-input" value="${p.nombre}" maxlength="50">`;
   document.getElementById("detalle-tipo").innerHTML = `<input type="text" id="edit-tipo" class="form-input" value="${p.tipo}" maxlength="50">`;
   document.getElementById("detalle-hp").innerHTML = `<input type="number" id="edit-hp" class="form-input" value="${p.hp}" min="1" max="300">`;
@@ -220,7 +233,7 @@ export function volverAMostrarDetalle(id) {
   pokemonActual = p;
 
   // Restaurar todos los campos
-  document.getElementById("detalle-titulo").textContent = `Pokémon: ${p.nombre}`;
+  document.getElementById("detalle-titulo").textContent = p.nombre;
   document.getElementById("detalle-nombre").textContent = p.nombre;
   document.getElementById("detalle-tipo").textContent = p.tipo;
   document.getElementById("detalle-hp").textContent = p.hp;

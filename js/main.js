@@ -1,6 +1,6 @@
 import { initFirebase } from "./firebase.js";
 import { initTemaYNavegacion } from "./tema.js"; // Importamos la función
-import { pokemon, renderizarPokemones, mostrarDetalle, editarPokemon, volverAMostrarDetalle, pokemonActual, convertirImagenABase64 } from "./pokemon.js";
+import { pokemon, renderizarPokemones, mostrarDetalle, editarPokemon, volverAMostrarDetalle, pokemonActual, setPokemonActual, convertirImagenABase64 } from "./pokemon.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
     // Inicializar Firebase
@@ -112,6 +112,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     const btnGuardarNuevo = document.getElementById("btn-guardar-nuevo");
     const inputNuevoNombre = document.getElementById("nuevo-nombre");
     const inputNuevoTipo = document.getElementById("nuevo-tipo");
+    const inputNuevoHp = document.getElementById("nuevo-hp");
+    const inputNuevoTipoCarta = document.getElementById("nuevo-tipo-carta");
+    const inputNuevoDebilidad = document.getElementById("nuevo-debilidad");
+    const inputNuevoResistencia = document.getElementById("nuevo-resistencia");
+    const inputNuevoCostoRetiro = document.getElementById("nuevo-costo-retiro");
+    const inputNuevoAtaque = document.getElementById("nuevo-ataque");
+    const inputNuevoNumeroCarta = document.getElementById("nuevo-numero-carta");
     const inputNuevoDesbloqueado = document.getElementById("nuevo-desbloqueado");
     const inputNuevoImagen = document.getElementById("nuevo-imagen");
 
@@ -127,15 +134,50 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.error("❌ Botón 'btn-iniciar' no encontrado en el DOM.");
     }
 
+    // === Eventos de navegación ===
+    btnVolverMenuDetalle.addEventListener("click", () => {
+        detallePokemon.style.display = "none";
+        menuPokemon.style.display = "block";
+    });
+    btnVolverInicio.addEventListener("click", () => {
+        menuPokemon.style.display = "none";
+        pantallaInicial.style.display = "block";
+    });
+
+    const btnAgregarPokemon = document.getElementById("btn-agregar-pokemon");
+    btnAgregarPokemon.addEventListener("click", () => {
+        menuPokemon.style.display = "none";
+        nuevoPokemon.style.display = "block";
+    });
+
+    const btnEditarPokemon = document.getElementById("btn-editar-pokemon");
+    btnEditarPokemon.addEventListener("click", () => {
+        if (!pokemonActual) return;
+        editarPokemon(pokemonActual);
+    });
+
+    btnVolverNuevo.addEventListener("click", () => {
+        nuevoPokemon.style.display = "none";
+        menuPokemon.style.display = "block";
+    });
+
     // 🔑 Botón de guardar nuevo Pokémon (sin autenticación)
     btnGuardarNuevo.addEventListener("click", async () => {
         const nombre = inputNuevoNombre.value.trim();
         const tipo = inputNuevoTipo.value.trim();
+        const hp = parseInt(inputNuevoHp.value) || 60; // Valor por defecto
+        const tipoCarta = inputNuevoTipoCarta.value.trim() || "Pokémon Básico"; // Valor por defecto
+        const debilidad = inputNuevoDebilidad.value.trim();
+        const resistencia = inputNuevoResistencia.value.trim();
+        const costoRetiro = inputNuevoCostoRetiro.value.trim() || "1 energía"; // Valor por defecto
+        const ataque = inputNuevoAtaque.value.trim();
+        const numeroCarta = inputNuevoNumeroCarta.value.trim() || "???/???"; // Valor por defecto
         const desbloqueado = inputNuevoDesbloqueado.checked;
 
         if (!nombre) { alert("El nombre del Pokémon es obligatorio."); return; }
         if (!tipo) { alert("El tipo del Pokémon es obligatorio."); return; }
         if (nombre.length > 50) { alert("El nombre no puede superar 50 caracteres."); return; }
+        if (ataque.length > 100) { alert("El ataque no puede superar 100 caracteres."); return; }
 
         const prevText = btnGuardarNuevo.textContent;
         btnGuardarNuevo.textContent = "Guardando...";
@@ -149,13 +191,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                 id: nuevoId,
                 nombre,
                 tipo,
-                hp: 60, // Valor por defecto
-                tipoCarta: "Pokémon Básico",
-                debilidad: "",
-                resistencia: "",
-                costoRetiro: "1 energía",
-                ataque: "",
-                numeroCarta: "???/???", // ✅ Valor por defecto
+                hp,
+                tipoCarta,
+                debilidad,
+                resistencia,
+                costoRetiro,
+                ataque,
+                numeroCarta,
                 desbloqueado: !!desbloqueado,
                 imagen: ""
             };
@@ -276,36 +318,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
 
-    // === Eventos de navegación ===
-    btnVolverMenuDetalle.addEventListener("click", () => {
-        detallePokemon.style.display = "none";
-        menuPokemon.style.display = "block";
-    });
-    btnVolverInicio.addEventListener("click", () => {
-        menuPokemon.style.display = "none";
-        pantallaInicial.style.display = "block";
-    });
-
-    const btnAgregarPokemon = document.getElementById("btn-agregar-pokemon");
-    btnAgregarPokemon.addEventListener("click", () => {
-        menuPokemon.style.display = "none";
-        nuevoPokemon.style.display = "block";
-    });
-
-    const btnEditarPokemon = document.getElementById("btn-editar-pokemon");
-    btnEditarPokemon.addEventListener("click", () => {
-        if (!pokemonActual) return;
-        editarPokemon(pokemonActual);
-    });
-
-    btnVolverNuevo.addEventListener("click", () => {
-        nuevoPokemon.style.display = "none";
-        menuPokemon.style.display = "block";
-    });
-
     const limpiarCampos = () => {
         inputNuevoNombre.value = "";
         inputNuevoTipo.value = "";
+        inputNuevoHp.value = "60";
+        inputNuevoTipoCarta.value = "Pokémon Básico";
+        inputNuevoDebilidad.value = "";
+        inputNuevoResistencia.value = "";
+        inputNuevoCostoRetiro.value = "1 energía";
+        inputNuevoAtaque.value = "";
+        inputNuevoNumeroCarta.value = "";
         inputNuevoDesbloqueado.checked = false;
         inputNuevoImagen.value = "";
     };

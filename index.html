@@ -109,8 +109,6 @@
 
                     <!-- Botón de guardar (solo visible al editar) -->
                     <button id="btn-guardar-pokemon" class="btn-principal" style="display: none;">Guardar</button>
-                    <!-- Botón de eliminar (solo visible al editar) -->
-                    <button id="btn-eliminar-pokemon" class="btn-secundario" style="display: none; background: #f44336;">Eliminar</button>
                 </div>
             </div>
         </section>
@@ -136,6 +134,41 @@
                 <div class="form-group">
                     <label for="nuevo-tipo">Tipo:</label>
                     <input type="text" id="nuevo-tipo" class="form-input" placeholder="Fuego, Agua, etc." maxlength="50" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="nuevo-hp">HP:</label>
+                    <input type="number" id="nuevo-hp" class="form-input" min="1" max="300" value="60">
+                </div>
+
+                <div class="form-group">
+                    <label for="nuevo-tipo-carta">Tipo de Carta:</label>
+                    <input type="text" id="nuevo-tipo-carta" class="form-input" placeholder="Pokémon Básico, Evolución..." maxlength="50" value="Pokémon Básico">
+                </div>
+
+                <div class="form-group">
+                    <label for="nuevo-debilidad">Debilidad:</label>
+                    <input type="text" id="nuevo-debilidad" class="form-input" placeholder="Fuego, etc." maxlength="50">
+                </div>
+
+                <div class="form-group">
+                    <label for="nuevo-resistencia">Resistencia:</label>
+                    <input type="text" id="nuevo-resistencia" class="form-input" placeholder="Lucha –30, etc." maxlength="50">
+                </div>
+
+                <div class="form-group">
+                    <label for="nuevo-costo-retiro">Costo de Retiro:</label>
+                    <input type="text" id="nuevo-costo-retiro" class="form-input" placeholder="1 energía, etc." maxlength="20" value="1 energía">
+                </div>
+
+                <div class="form-group">
+                    <label for="nuevo-ataque">Ataque:</label>
+                    <input type="text" id="nuevo-ataque" class="form-input" placeholder="Nombre del ataque" maxlength="100">
+                </div>
+
+                <div class="form-group">
+                    <label for="nuevo-numero-carta">Número de Carta:</label>
+                    <input type="text" id="nuevo-numero-carta" class="form-input" placeholder="001/198, etc." maxlength="10">
                 </div>
 
                 <div class="form-group">
