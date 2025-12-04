@@ -193,6 +193,7 @@ export function mostrarDetalle(id) {
 
   // Ocultar botón "Editar" por defecto y mostrarlo solo si autenticado (ahora no es necesario)
   document.getElementById("btn-editar-pokemon").style.display = "inline-block";
+  document.getElementById("btn-eliminar-pokemon").style.display = "none"; // ✅ Ocultar botón eliminar
   document.getElementById("btn-guardar-pokemon").style.display = "none";
 }
 
@@ -220,6 +221,7 @@ export function editarPokemon(p) {
   document.getElementById("label-cambiar-imagen").style.display = "block";
   document.getElementById("btn-editar-pokemon").style.display = "none";
   document.getElementById("btn-guardar-pokemon").style.display = "inline-block";
+  document.getElementById("btn-eliminar-pokemon").style.display = "inline-block"; // ✅ Mostrar botón eliminar
 }
 
 /**
@@ -256,8 +258,9 @@ export function volverAMostrarDetalle(id) {
   detalleContenedor.querySelector('#edit-ataque')?.remove();
   detalleContenedor.querySelector('#edit-numero-carta')?.remove();
 
-  // Mostrar botón "Editar" y ocultar botón "Guardar"
+  // Mostrar botón "Editar" y ocultar botón "Guardar/Eliminar"
   document.getElementById("btn-editar-pokemon").style.display = "inline-block";
+  document.getElementById("btn-eliminar-pokemon").style.display = "none";
   document.getElementById("btn-guardar-pokemon").style.display = "none";
 }
 
